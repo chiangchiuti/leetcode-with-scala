@@ -5,6 +5,10 @@
  *   var x: Int = _x
  * }
  */
+ 
+ /**
+ *  using two pointer, one run 2 times faster than the other
+ */
 object Solution {
     def isPalindrome(head: ListNode): Boolean = {
         if (head == null){
@@ -28,6 +32,15 @@ object Solution {
                 case null => checkPalindrome(slowPre, slow)
                 case _ => checkPalindrome(slowPre, slow.next)  // odd case
             }
+            /**
+                1 2 2 1 null
+                s f
+                    s   f  
+
+                1 2 3 2 1 null
+                s f   
+                    s   f
+            */
         }
        
                 

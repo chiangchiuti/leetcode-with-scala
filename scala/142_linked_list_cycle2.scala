@@ -24,7 +24,7 @@ object Solution {
 
 
 /**
-* without using extra space?
+* without using extra space
 **/
 object Solution2 {
     def detectCycle(head: ListNode): ListNode = {
@@ -60,6 +60,49 @@ object Solution2 {
                 else None
         }
         
+    }
+}
+
+/**
+* iterative version without extra space
+*/
+
+object Solution {
+    def detectCycle(head: ListNode): ListNode = {
+        val meetNode = _detectCycle(head)
+        
+        if(meetNode == null) {
+            null
+        }else {
+         findStartPoint(head, meetNode)   
+        }
+        
+    }
+    def findStartPoint(head: ListNode, meet: ListNode): ListNode =  {
+        var node1 = head
+        var node2 = meet
+        
+        while(node1 != node2) {
+            node1 = node1.next
+            node2 = node2.next
+        }
+        node1
+    }
+    
+    def _detectCycle(head: ListNode): ListNode = {
+        var fast = head
+        var slow = head
+        
+        var result:ListNode = null
+        while(result == null && fast != null && slow != null && fast.next != null) {
+            fast = fast.next.next
+            slow = slow.next
+            if(fast == slow){
+                result = slow
+            }
+        }
+        
+        result
     }
 }
 

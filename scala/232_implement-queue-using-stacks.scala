@@ -1,49 +1,45 @@
+/**
+* using two stack to implement
+* one for push, the other for pop
+*/
+
 class MyQueue() {
 
-    /** Initialize your data structure here. */
-    
-    private val stack1 = scala.collection.mutable.Stack[Int]()
-    private val stack2 = scala.collection.mutable.Stack[Int]()
-
-    /** Push element x to the back of queue. */
-    def push(x: Int) {
-        stack1.push(x)
-    }
-    
-    private def mv() {
-        if(stack2.isEmpty)
-            while(!stack1.isEmpty)
-                stack2.push(stack1.pop)
-    }
-
-    /** Removes the element from in front of queue and returns that element. */
-    def pop(): Int = {
-        mv()
-        if(stack2.isEmpty) -1 else stack2.pop  
-       
-   
-    }
-
-    /** Get the front element. */
-    def peek(): Int = {
-        mv()
-        if(stack2.isEmpty) -1 else stack2.head  
-        
-    }
+  /** Initialize your data structure here. */
+  private val inputStack = scala.collection.mutable.ArrayStack[Int]()
+  private val outputStack = scala.collection.mutable.ArrayStack[Int]()
 
 
-    /** Returns whether the queue is empty. */
-    def empty(): Boolean = {
-        stack1.isEmpty && stack2.isEmpty
+  /** Push element x to the back of queue. */
+  def push(x: Int) {
+    inputStack.push(x)
+
+  }
+
+  /** Removes the element from in front of queue and returns that element. */
+  def pop(): Int = {
+    if(outputStack.isEmpty) {
+      while (inputStack.nonEmpty) {
+        outputStack.push(inputStack.pop())
+      }
     }
+    if(outputStack.isEmpty) -1 else outputStack.pop()
+
+  }
+
+  /** Get the front element. */
+  def peek(): Int = {
+    if(outputStack.isEmpty) {
+      while (inputStack.nonEmpty) {
+        outputStack.push(inputStack.pop())
+      }
+    }
+    if(outputStack.isEmpty) -1 else outputStack.head
+  }
+
+  /** Returns whether the queue is empty. */
+  def empty(): Boolean = {
+    outputStack.isEmpty && inputStack.isEmpty
+  }
 
 }
-
-/**
- * Your MyQueue object will be instantiated and called as such:
- * var obj = new MyQueue()
- * obj.push(x)
- * var param_2 = obj.pop()
- * var param_3 = obj.peek()
- * var param_4 = obj.empty()
- */

@@ -87,10 +87,12 @@ object Solution {
 
     nums.zipWithIndex.foreach { case (value: Int, index: Int) =>
       if (index >= k && windows.peekFirst() <= index - k) {
+        // remove out of date element
         windows.removeFirst()
       }
 
       while (!windows.isEmpty && nums(windows.peekLast()) <= value) {
+        // drop the element if  it is smaller than upcoming element
         windows.removeLast()
       }
       windows.add(index)

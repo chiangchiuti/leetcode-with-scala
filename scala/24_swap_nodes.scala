@@ -44,8 +44,10 @@ object Solution2 {
             (n, n.next) match {
                 case (a, null) => a
                 case (a: ListNode, b: ListNode) => 
-                    a.next = _swap(b.next)
-                    b.next = a
+                    /** a b 要交換位子
+                     */
+                    a.next = _swap(b.next) // a 指向 b 的 next (已交換完成）
+                    b.next = a // b 的 next 接上 a 就交換完成
                     b
             }
         } 

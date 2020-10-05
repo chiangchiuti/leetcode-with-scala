@@ -5,7 +5,9 @@
  *   var x: Int = _x
  * }
  */
-
+/**
+* 用一個 seen set 記錄看過的, iterative version
+*/
 object Solution {
     def hasCycle(head: ListNode): Boolean = {
         
@@ -24,12 +26,11 @@ object Solution {
             }
         }
         result
-        
     }
-    
 }
-
-
+/**
+* 用一個 seen set 記錄看過的, recursive version
+*/
 object Solution2 {
     def hasCycle(head: ListNode): Boolean = {
         val seenSet = new scala.collection.mutable.HashSet[ListNode]()
@@ -49,7 +50,9 @@ object Solution2 {
     
 }
 
-
+/**
+* 利用兩個 pointer 一個走得快 一個走的慢， 若有 cycle : fast pointer 遲早會追上 slow pointer
+*/
 object Solution3 {
     def hasCycle(head: ListNode): Boolean = {
         var pointerA = head
@@ -62,11 +65,8 @@ object Solution3 {
             pointerB = pointerB.next
         
             if(pointerA == pointerB) result = true
-   
         }
-
         result
-        
     }
 }
 
