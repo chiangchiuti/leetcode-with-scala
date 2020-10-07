@@ -35,8 +35,8 @@ object Solution {
         profits(0)(0) = 0
         profits(0)(1) = -prices(0)
         for(i <- 1 until prices.length) {
-            profits(i)(0) = profits(i - 1)(0) max (prices(i) + profits(i - 1)(1))
-            profits(i)(1) = profits(i - 1)(1) max (profits(i)(0) - prices(i))
+            profits(i)(0) = profits(i - 1)(0) max (prices(i) + profits(i - 1)(1)) //  sell 
+            profits(i)(1) = profits(i - 1)(1) max (profits(i)(0) - prices(i)) // buy and hold
 
         }
         profits(profits.length - 1).max

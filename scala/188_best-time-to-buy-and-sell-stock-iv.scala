@@ -22,7 +22,7 @@ object Solution {
       i <- prices.indices
       j <- 0 until k
     } {
-      val ii = (i + prices.length - 1) % profits.length
+      val ii = (i + prices.length - 1) % prices.length
       profits(i)(j)(1) = profits(ii)(j)(1)  max ( profits(ii)(j)(0) + prices(i)) // sell
       if (j > 0)
         profits(i)(j)(0) = profits(ii)(j)(0)  max ( profits(ii)(j - 1)(1) - prices(i)) // buy

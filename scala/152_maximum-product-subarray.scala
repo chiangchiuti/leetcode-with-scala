@@ -44,7 +44,7 @@ object Solution2 {
 
 object Solution2 {
   def maxProduct(nums: Array[Int]): Int = {
-    val dp = Array.ofDim[Int](nums.length, 2)
+    val dp = Array.ofDim[Int](nums.length, 2) // record each position n's max product( from 0 to n)
     var result = nums(0)
     dp(0)(0) = nums(0)
     dp(0)(1) = nums(0)

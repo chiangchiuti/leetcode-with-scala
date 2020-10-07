@@ -52,7 +52,7 @@ object Solution {
             if(j == 0)  
                 profits(currentStatus)(j)(0) =  profits(previousStatus)(j)(0) max - prices(i) // buy
             else 
-                profits(currentStatus)(j)(0) =  profits(previousStatus)(j)(0) max (profits(previousStatus)(j - 1)(1) - prices(i)) // buy
+                profits(currentStatus)(j)(0) =  profits(previousStatus)(j)(0) max (profits(previousStatus)(j - 1)(1) - prices(i)) // buy from previous (j - 1) sell status
 
         }
 

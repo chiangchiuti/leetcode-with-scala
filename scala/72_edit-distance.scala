@@ -19,8 +19,12 @@ object Solution {
         val delete = dp(i - 1)(j)
         dp(i)(j) = (replace min insert min delete) + 1
         
-        // int -> exet: do add on left side base on  int -> exe
-        // int -> exet: do delete on right side base on in -> exet
+/**
+*  F(inten ->  exec):
+*     delete op: F(inte -> exec) + delete(c)
+*     insert op: F(inten -> exe) + insert(c)
+*     replace op: F(inte -> exe) + replace(n -> c)
+*/     
       }
     }
     dp(m)(n)

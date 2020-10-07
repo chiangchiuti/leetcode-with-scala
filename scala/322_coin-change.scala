@@ -17,6 +17,6 @@ object Solution {
             }        
         }
     
-        if (dp(dp.length - 1) > amount) -1 else dp(dp.length - 1)
+        if (dp.last > amount) -1 else dp.last
     }
 }
