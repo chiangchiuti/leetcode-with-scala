@@ -7,7 +7,7 @@
       def _isValidSudoku(currentRow: Int, currentCol: Int, cols: Array[collection.mutable.Set[Char]], rows: Set[Char], blocks: Array[collection.mutable.Set[Char]]): Boolean = {
         (currentRow < board.length, currentCol < board.length) match {
           case (false, _) => true
-          case (true, true) =>
+          case (true, true) => // current line next position
             val v = board(currentRow)(currentCol)
             val blockIndex = 3 * (currentRow / 3) + currentCol / 3
             if (v == '.') {
@@ -23,7 +23,7 @@
                 _isValidSudoku(currentRow, currentCol + 1, cols, rows + v, blocks)
               }
             }
-          case (true, false) => _isValidSudoku(currentRow + 1, 0, cols, Set[Char](), blocks)
+          case (true, false) => _isValidSudoku(currentRow + 1, 0, cols, Set[Char](), blocks) // next line
         }
       }
       _isValidSudoku(0, 0, Array.fill(board.length)(collection.mutable.Set[Char]()), Set[Char](), Array.fill(board.length)(collection.mutable.Set[Char]()))
@@ -62,7 +62,36 @@ object Solution2 {
 
         }
             result
-
         }
+}
+
+/**
+* it's no need for zipWithIndex: faster
+*/
+object Solution3 {
+  def isValidSudoku(board: Array[Array[Char]]): Boolean = {
+    val size = board.length
+    val rows = Array.ofDim[Boolean](size, size)
+    val cols =  Array.ofDim[Boolean](size, size)
+    val blocks =  Array.ofDim[Boolean](size, size)
+
+
+    var result = true
+    for(i <- 0 until size; j <- 0 until size; if result) {
+      if(board(i)(j) != '.') {
+        val v = board(i)(j).asDigit - 1
+        val blockIdx = 3 * (i / 3) + (j / 3)
+
+        if(rows(i)(v) || cols(j)(v) || blocks(blockIdx)(v)) {
+          result = false
+        }
+
+        rows(i)(v) = true
+        cols(j)(v) = true
+        blocks(blockIdx)(v) = true
+      }
+    }
+    result
+  }
 }
 

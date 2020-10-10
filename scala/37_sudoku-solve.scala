@@ -1,4 +1,61 @@
+/**
+* selected solution
+* time complexity: O(N^2)
+*/
+
 object Solution {
+
+  import scala.collection.immutable.Queue
+
+  def solveSudoku(board: Array[Array[Char]]): Unit = {
+    val indices = scala.collection.mutable.Queue[(Int, Int)]()
+
+    for (i <- 0 until board.length; j <- 0 until board.length) {
+      val v = board(i)(j)
+      if (v == '.') indices.enqueue((i, j))
+    }
+    _solveSudoku(Queue(indices.dequeueAll(_ => true): _*), board.map(_.clone()), board)
+  }
+
+
+  def _solveSudoku(indices: Queue[(Int, Int)], currentBoard: Array[Array[Char]], finalBoard: Array[Array[Char]]): Boolean = {
+    if (indices.isEmpty) {
+      currentBoard.zipWithIndex.foreach { case (a, idx) => a.copyToArray(finalBoard(idx)) }
+      return true
+    }
+
+    val ((row, col), newIndices) = indices.dequeue
+    ('1' to '9').filter(_checkValid(_, (row, col), currentBoard)).find { // find: 找出第一個合法數字，代表其後的迭代有解
+      c =>
+        currentBoard(row)(col) = c
+        if (_solveSudoku(newIndices, currentBoard, finalBoard)) true
+        else {
+          currentBoard(row)(col) = '.'
+          false
+        }
+    } match {
+      case Some(_) => true
+      case None => false  // 這個盤勢不管填什麼後續都無解
+    }
+  }
+
+  def _checkValid(c: Char, index: (Int, Int), currentBoard: Array[Array[Char]]): Boolean = {
+    val (row, col) = index
+    val blockRowIdx = 3 * (row / 3)
+    val blockColIdx = 3 * (col / 3)
+    val checkBoard = (rowAnchar: Int, colAnchar: Int) => {
+      val pairs = for (i <- 0 until 3; j <- 0 until 3) yield (rowAnchar + i, colAnchar + j)
+      pairs.exists { case (i, j) => currentBoard(i)(j) == c }
+    }
+    if (currentBoard(row).contains(c) || currentBoard.exists(a => a(col) == c) || checkBoard(blockRowIdx, blockColIdx)) false
+    else true
+  }
+}
+
+/**
+* my first commit
+*/
+object Solution0 {
   def solveSudoku(board: Array[Array[Char]]): Unit = {
 
     _solveSudoku(board)
@@ -38,11 +95,8 @@ object Solution {
 
 }
 
-/**
-* optimize
-*/
 
-object Solution2 {
+object Solution1 {
   def solveSudoku(board: Array[Array[Char]]): Unit = {
 
     _solveSudoku(0, 0, board.map(_.clone()), board)
@@ -50,19 +104,20 @@ object Solution2 {
 
   def _solveSudoku(currentRow: Int, currentCol: Int, currenBboard: Array[Array[Char]], finalBoard: Array[Array[Char]]): Boolean = {
     (currentRow < finalBoard.length, currentCol < finalBoard.length) match {
-      case (false, _) =>
+      case (false, _) => // end condition
         currenBboard.zipWithIndex.foreach { case (a, idx) => a.copyToArray(finalBoard(idx)) }
         true
-      case (true, false) =>
+      case (true, false) => // next line (row)
         _solveSudoku(currentRow + 1, 0, currenBboard, finalBoard)
-      case (true, true) if currenBboard(currentRow)(currentCol) == '.' =>
+      
+      case (true, true) if currenBboard(currentRow)(currentCol) == '.' => 
         ('1' to '9').filter(c => _isValid(currentRow, currentCol, c, currenBboard))
-          .find(c => _solveSudoku(currentRow , currentCol + 1, copyBoard(currenBboard)(currentRow, currentCol, c), finalBoard)) match {
+          .find(c => _solveSudoku(currentRow , currentCol + 1, copyBoard(currenBboard)(currentRow, currentCol, c), finalBoard)) match { // fix row shift col
           case Some(_) => true
           case None => false
         }
 
-      case _ => _solveSudoku(currentRow, currentCol + 1, currenBboard, finalBoard)
+      case _ => _solveSudoku(currentRow, currentCol + 1, currenBboard, finalBoard) // fix row, next col 
     }
   }
 
@@ -99,9 +154,9 @@ object Solution2 {
 }
 
 /**
-*  optimize with queue 
+*  using a queue storing unfilled index
 */
-object Solution3 {
+object Solution2 {
 
   import scala.collection.immutable.Queue
 
@@ -122,6 +177,7 @@ object Solution3 {
 
   def _solveSudoku(indexes: Queue[(Int, Int)], currentBoard: Array[Array[Char]], finalBoard: Array[Array[Char]]): Boolean = {
     if (indexes.isEmpty) {
+      // end condition
       currentBoard.zipWithIndex.foreach { case (a, idx) => a.copyToArray(finalBoard(idx)) }
       true
     } else {

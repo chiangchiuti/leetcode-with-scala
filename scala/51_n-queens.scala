@@ -1,12 +1,12 @@
 /**
-*  思路: 每個 row 上出現的 Q 的 column index 不會重複
+*  思路: 每個 row 上出現的 Q 的 column index 不會重複, 正斜線 (i + j) 和反斜線 ( i -j ) 上唯一
 * 
 * time complexity O(N^2)
 */
 object Solution {
   def solveNQueens(n: Int): List[List[String]] = {
     val result = scala.collection.mutable.ListBuffer[List[Int]]()
-    def _solveNQueens(n: Int, queens: List[Int],
+    def _solveNQueens(queens: List[Int],
                       xy_diff: Set[Int],
                       xy_sum: Set[Int]
                      ): Unit = {
@@ -25,19 +25,13 @@ object Solution {
       }
     }
 
-    _solveNQueens(n, List(), Set(), Set())
-    plotResult(n, result)
+    _solveNQueens(List(), Set(), Set())
+
+    result.map(b => plotResult(b, n)).toList
   }
 
+  def plotResult(input: List[Int], n: Int): List[String] = {
 
-  def plotResult(n: Int, result: scala.collection.mutable.ListBuffer[List[Int]]): List[List[String]] = {
-
-    val r = for {
-      queen <- result
-    } yield {
-      for (q <- queen) yield
-        "." * q + "Q" + "." * (n-q-1)
-    }
-    r.toList
+    input.map(i =>  "." * i + "Q" + "." * (n - i - 1))
   }
 }

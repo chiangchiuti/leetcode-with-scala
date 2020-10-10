@@ -13,7 +13,7 @@ object Solution {
       if (right == n && left == n) {
         buffer += pair
       } else {
-        if (left < n) _generateParenthesis(right, left + 1, n, pair + l)
+        if (left < n) _generateParenthesis(right, left + 1, n, pair + l) // you can add open whenever you want if it's smaller then n
         if (left > right && right < n) _generateParenthesis(right + 1, left, n, pair + r)
       }
     }

@@ -1,39 +1,5 @@
 /**
-* recursive version : correct but may cause memory exceed limit
-*/
-object Solution {
-  def maxProduct(nums: Array[Int]): Int = {
-    
-    (1 to nums.length).map(n =>  _maxProduct(nums(n - 1), nums.takeRight(nums.length - n))).max
-  }
-
-  def _maxProduct(curr: Int, nums: Array[Int]): Int = {
-      if(nums.isEmpty) return curr          
-      curr max  _maxProduct( curr * nums(0), nums.takeRight(nums.length - 1))
-  }
-}
-
-
-/**
-* optimize from above one
-* don't copy subArray during transmit parameters
-* time complexity： O(N^2)
-*/
-object Solution2 {
-  def maxProduct(nums: Array[Int]): Int = {
-      
-    (1 to nums.length).map(n =>  _maxProduct(nums(n - 1), n, nums)).max
-  }
-    
-  def _maxProduct(curr: Int, idx: Int, nums: Array[Int]): Int = {
-      if(idx >= nums.length) return curr   
-      curr max  _maxProduct( curr * nums(idx), idx + 1, nums)
-  }
-
-}
-
-
-/**
+* Selected Solution
 * using dp array to record previous max min value
 * and each state i update 
 *  1. max(current v,  previous state max value * current value,  previous state min value * current value)
@@ -42,7 +8,7 @@ object Solution2 {
 *  space  complexity: O(2N), actually it can be optimized to O(4) which only record both current and previous min and max
 */
 
-object Solution2 {
+object Solution0 {
   def maxProduct(nums: Array[Int]): Int = {
     val dp = Array.ofDim[Int](nums.length, 2) // record each position n's max product( from 0 to n)
     var result = nums(0)
@@ -61,6 +27,42 @@ object Solution2 {
   }
 }
 
+/**
+* recursive version : correct but may cause memory exceed limit
+*/
+object Solution1 {
+  def maxProduct(nums: Array[Int]): Int = {
+    
+    (1 to nums.length).map(n =>  _maxProduct(nums(n - 1), nums.takeRight(nums.length - n))).max
+  }
+
+  def _maxProduct(curr: Int, nums: Array[Int]): Int = {
+      if(nums.isEmpty) return curr          
+      curr max  _maxProduct( curr * nums(0), nums.takeRight(nums.length - 1))
+  }
+}
+
+
+/**
+* optimize from above one
+* don't copy subArray during transmit parameters
+* time complexity： O(N^2)
+*/
+object Solution1-2 {
+  def maxProduct(nums: Array[Int]): Int = {
+      
+    (1 to nums.length).map(n =>  _maxProduct(nums(n - 1), n, nums)).max
+  }
+    
+  def _maxProduct(curr: Int, idx: Int, nums: Array[Int]): Int = {
+      if(idx >= nums.length) return curr   
+      curr max  _maxProduct( curr * nums(idx), idx + 1, nums)
+  }
+
+}
+
+
+
 
 
 /**
@@ -68,7 +70,7 @@ object Solution2 {
 */
 
 
-object Solution {
+object Solution2 {
     def maxProduct(nums: Array[Int]): Int = {
         if (nums == null || nums.size == 0) {
             return 0;

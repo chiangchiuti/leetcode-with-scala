@@ -9,7 +9,7 @@ object Solution {
             if(row == n) counter += 1
             else {
             
-                var availableBits = (~(col | slash | inverseSlash)) & ((1 << n) - 1) // 目前空的 bit, 並取反有空位為 1
+                var availableBits = (~(col | slash | inverseSlash)) & ((1 << n) - 1) // 目前空的 bit, 並取反有空位為 1, 注意高位應為 0
 
                 
                 while(availableBits != 0) {
