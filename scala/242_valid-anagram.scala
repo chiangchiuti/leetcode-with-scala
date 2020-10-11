@@ -1,9 +1,24 @@
 
 /**
-* O(N)
+* select solution
+* one line version
+* time complexity: O(N)
 */
 
-object Solution {
+object Solution0 {
+  def isAnagram(s: String, t: String): Boolean = {
+   s.groupBy(identity).mapValues(_.length).toMap == t.groupBy(identity).mapValues(_.length).toMap  // toMap: transform MapView to Map
+
+  }
+}
+
+
+/**
+* my first commit
+* time complexity: O(N)
+*/
+
+object Solution1 {
   def isAnagram(s: String, t: String): Boolean = {
     charCounter(s) equals charCounter(t)
   }
@@ -23,13 +38,3 @@ object Solution {
 }
 
 
-/**
-*  one line version
-*/
-
-object Solution {
-  def isAnagram(s: String, t: String): Boolean = {
-   s.groupBy(identity).mapValues(_.length).toMap == t.groupBy(identity).mapValues(_.length).toMap
-
-  }
-}

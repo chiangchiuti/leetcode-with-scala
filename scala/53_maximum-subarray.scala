@@ -54,7 +54,7 @@ object Solution1 {
 object Solution2 {
     def maxSubArray(nums: Array[Int]): Int = {
         if(nums == null || nums.isEmpty) return 0
-        val dp = Array.ofDim[Int](nums.length, 2)  // dp(0) ... dp(i) storing each status  corresponding to  nums' index, means max subarray sum ending with  nums[i]
+        val dp = Array.ofDim[Int](nums.length, 2)  // dp(0) ... dp(i) storing each status corresponding to  nums' index, means max subarray sum ending with nums[i]
         dp(0)(0) = nums(0)  // dim0: accumulate calculator which reset while new element is larger value inside,
         dp(0)(1) = nums(0) // dim1: maximum so far
         
