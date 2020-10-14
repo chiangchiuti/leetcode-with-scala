@@ -7,6 +7,13 @@
  * }
  */
 
+/**
+* DFS 
+* 
+* exploit binary search three property:  right > parent value > left
+* time complexity : O(N)
+* space complexity: O(N)
+*/
 object Solution {
   def lowestCommonAncestor(root: TreeNode, p: TreeNode, q: TreeNode): TreeNode = {
     _lowestCommonAncestor(root, p, q)

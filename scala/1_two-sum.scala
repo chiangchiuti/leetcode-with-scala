@@ -1,8 +1,25 @@
 /**
-* O(N)
+* select solution
+* time complexity: O(N)
 */
 
-object Solution {
+
+object Solution0 {
+  def twoSum(nums: Array[Int], target: Int): Array[Int] = {
+    val value2Idx = nums.zipWithIndex.toMap
+    nums.zipWithIndex.collectFirst {
+      case (value, index) if value2Idx.get(target - value).exists(_ != index) =>
+        Array(index, value2Idx(target - value))
+    }.get
+  }
+}
+
+/**
+* HashTable
+* time complexity: O(N)
+*/
+
+object Solution1 {
   def twoSum(nums: Array[Int], target: Int): Array[Int] = {
     val value2Idx = nums.zipWithIndex.toMap
     val ret = collection.mutable.ArrayBuffer[Int]()
@@ -25,7 +42,7 @@ object Solution {
 */
 
 
-object Solution {
+object Solution1-2 {
   def twoSum(nums: Array[Int], target: Int): Array[Int] = {
     val value2Idx = nums.zipWithIndex.toMap
     nums.zipWithIndex.collectFirst {

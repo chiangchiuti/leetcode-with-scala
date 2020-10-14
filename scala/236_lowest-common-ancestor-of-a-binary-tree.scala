@@ -8,10 +8,12 @@
  */
 
 /**
+*  select solution
+*  DFS with recursive
 *  time complexity O(N)
 *  space complexity O(N)
 */
-object Solution {
+object Solution0 {
   def lowestCommonAncestor(root: TreeNode, p: TreeNode, q: TreeNode): TreeNode = {
     _lowestCommonAncestor(root, p, q)
   }

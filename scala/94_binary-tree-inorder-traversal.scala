@@ -9,12 +9,13 @@
 
 /**
 * iterative version
+* time complexity: O(N)
 */
 
-object Solution {
+object Solution1 {
     def inorderTraversal(root: TreeNode): List[Int] = {
       var node = root
-      val stack = new collection.mutable.ArrayStack[TreeNode]()
+      val stack = new collection.mutable.Stack[TreeNode]()
       val result = new collection.mutable.ListBuffer[Int]()
 
       while(node != null || stack.nonEmpty) {
@@ -34,8 +35,9 @@ object Solution {
 
 /**
 * recursive version
+* time complexity: O(N)
 */
-object Solution {
+object Solution1-2 {
     def inorderTraversal(root: TreeNode): List[Int] = {
         _inorderTraversal(root)
     }
