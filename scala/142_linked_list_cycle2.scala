@@ -1,4 +1,41 @@
-object Solution {
+/**
+* select solution 
+* two pointer: tail recursive
+* time complexity: O(N)
+* space complexity: O(1)
+*/
+object Solution0 {
+    def detectCycle(head: ListNode): ListNode = {
+        if(head == null || head.next == null || head.next.next == null) return null
+        val meetNode =  _findMeetNode(head.next, head.next.next)
+        
+        meetNode match {
+            case null => null
+            case _ => _findStartNode(head, meetNode)
+        }
+    }
+    
+    @annotation.tailrec
+    def _findStartNode(nodeA: ListNode, nodeB: ListNode): ListNode = {
+       if(nodeA == nodeB) nodeA
+        else _findStartNode(nodeA.next, nodeB.next)
+        
+    }
+    
+    @annotation.tailrec
+    def _findMeetNode(slow: ListNode, fast: ListNode): ListNode = {
+        if(fast == null || fast.next == null) return null
+        if(slow == fast) return slow
+        _findMeetNode(slow.next, fast.next.next)
+        
+    }
+}
+
+/**
+* time complexity: O(N)
+* space complexity: O(N)
+*/
+object Solution1 {
     def detectCycle(head: ListNode): ListNode = {
         val seenSet = new scala.collection.mutable.HashSet[ListNode]()
         var p = head
@@ -24,8 +61,9 @@ object Solution {
 
 
 /**
+* two pointer
 * without using extra space
-**/
+*/
 object Solution2 {
     def detectCycle(head: ListNode): ListNode = {
         val meetPoint = if (head != null && head.next != null)
@@ -64,10 +102,11 @@ object Solution2 {
 }
 
 /**
+* two pointer
 * iterative version without extra space
 */
 
-object Solution {
+object Solution2-1 {
     def detectCycle(head: ListNode): ListNode = {
         val meetNode = _detectCycle(head)
         
@@ -106,3 +145,34 @@ object Solution {
     }
 }
 
+/**
+* two pointer: tail recursive
+* time complexity: O(N)
+* space complexity: O(1)
+*/
+object Solution2-2 {
+    def detectCycle(head: ListNode): ListNode = {
+        if(head == null || head.next == null || head.next.next == null) return null
+        val meetNode =  _findMeetNode(head.next, head.next.next)
+        
+        meetNode match {
+            case null => null
+            case _ => _findStartNode(head, meetNode)
+        }
+    }
+    
+    @annotation.tailrec
+    def _findStartNode(nodeA: ListNode, nodeB: ListNode): ListNode = {
+       if(nodeA == nodeB) nodeA
+        else _findStartNode(nodeA.next, nodeB.next)
+        
+    }
+    
+    @annotation.tailrec
+    def _findMeetNode(slow: ListNode, fast: ListNode): ListNode = {
+        if(fast == null || fast.next == null) return null
+        if(slow == fast) return slow
+        _findMeetNode(slow.next, fast.next.next)
+        
+    }
+}

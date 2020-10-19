@@ -5,7 +5,7 @@
  *   var x: Int = _x
  * }
  */
-object Solution {
+object Solution1 {
     def reverseList(head: ListNode): ListNode = {
         
         var prev: ListNode = null
@@ -33,7 +33,7 @@ object Solution {
 
 /** recursive version */
 
-object Solution {
+object Solution2 {
     def reverseList(head: ListNode): ListNode = {
         
         val curr:ListNode = null
@@ -54,7 +54,7 @@ object Solution {
     }
 }
 
-object Solution {
+object Solution2-1 {
     def reverseList(head: ListNode): ListNode = {
         if(head == null) head
         else _reverseList(head)

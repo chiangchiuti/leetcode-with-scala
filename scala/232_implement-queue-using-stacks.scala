@@ -1,6 +1,8 @@
 /**
 * using two stack to implement
 * one for push, the other for pop
+* time complexity
+* space complexity
 */
 
 class MyQueue() {

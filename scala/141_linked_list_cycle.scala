@@ -5,10 +5,37 @@
  *   var x: Int = _x
  * }
  */
+
+/**
+* select solution
+* 利用兩個 pointer 一個走得快 一個走的慢， 若有 cycle : fast pointer 遲早會追上 slow pointer
+* time complexity: O(N)
+* space complexity: O(1)
+*/
+
+object Solution0 {
+    def hasCycle(head: ListNode): Boolean = {
+        var pointerA = head
+        var pointerB = head
+        
+        
+        var result = false
+        while (pointerA != null && pointerA.next != null && result != true) {
+            pointerA = pointerA.next.next
+            pointerB = pointerB.next
+        
+            if(pointerA == pointerB) result = true
+        }
+        result
+    }
+}
+
+
+
 /**
 * 用一個 seen set 記錄看過的, iterative version
 */
-object Solution {
+object Solution1 {
     def hasCycle(head: ListNode): Boolean = {
         
         var p = head
@@ -52,6 +79,8 @@ object Solution2 {
 
 /**
 * 利用兩個 pointer 一個走得快 一個走的慢， 若有 cycle : fast pointer 遲早會追上 slow pointer
+* time complexity: O(N)
+* space complexity: O(1)
 */
 object Solution3 {
     def hasCycle(head: ListNode): Boolean = {
@@ -60,7 +89,7 @@ object Solution3 {
         
         
         var result = false
-        while (pointerA != null && pointerB != null && pointerA.next != null && result != true) {
+        while (pointerA != null && pointerA.next != null && result != true) {
             pointerA = pointerA.next.next
             pointerB = pointerB.next
         

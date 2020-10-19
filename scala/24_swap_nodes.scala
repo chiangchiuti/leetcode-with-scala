@@ -5,7 +5,7 @@
  *   var x: Int = _x
  * }
  */
-object Solution {
+object Solution1 {
     def swapPairs(head: ListNode): ListNode = {
         val nHead = new ListNode(0, head)
         var pre: ListNode  = nHead
@@ -26,13 +26,7 @@ object Solution {
 }
 
 
-/**
- * Definition for singly-linked list.
- * class ListNode(_x: Int = 0, _next: ListNode = null) {
- *   var next: ListNode = _next
- *   var x: Int = _x
- * }
- */
+
 object Solution2 {
     def swapPairs(head: ListNode): ListNode = {
         _swap(head)
