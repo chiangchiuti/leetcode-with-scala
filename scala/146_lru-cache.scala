@@ -1,7 +1,8 @@
 
 /**
 * select solution
-* build in linkedHashMap
+* build-in linkedHashMap
+* time complexity: O(1)
 */
 class LRUCache0(_capacity: Int) {
 
@@ -36,6 +37,8 @@ class LRUCache0(_capacity: Int) {
 /**
 * my first commitment
 * implement with linked list
+* time complexity:
+*    get, put, delete: O(N)
 */
 case class Node(key: Int, var value: Int, var next: Node = null)
 
@@ -131,7 +134,8 @@ def put(key: Int, value: Int) {
 
 /**
 * double linked list + hashset
-*
+*time complexity:
+*    get, put, delete: O(1)
 */
 
 case class Node(key: Option[Int], var value: Int, var pre:Node = null, var next: Node = null)
