@@ -6,6 +6,11 @@
  * var param_3 = obj.startsWith(prefix)
  */
 
+
+
+/**
+* my first commitment
+*/
 case class Node(childNode: Array[Node] = Array.ofDim[Node](26), var isWord: Boolean = false) {
 
   def apply(c: Char): Node = {
@@ -17,7 +22,7 @@ case class Node(childNode: Array[Node] = Array.ofDim[Node](26), var isWord: Bool
   }
 }
 
-class Trie() {
+class Trie1() {
 
   /** Initialize your data structure here. */
   val root = Node()
@@ -72,6 +77,7 @@ class Trie() {
 
 /**
 *  more elegant
+*  Node with apply and update
 */
 
 case class Node(childNode: Array[Node] = Array.ofDim[Node](26), var isWord: Boolean = false) {
@@ -92,7 +98,7 @@ case class Node(childNode: Array[Node] = Array.ofDim[Node](26), var isWord: Bool
     this.update(c.asDigit - 'a'.asDigit, node)
   }
 }
-class Trie() {
+class Trie1-2() {
 
   /** Initialize your data structure here. */
   val root = Node()
@@ -132,4 +138,23 @@ class Trie() {
     }
     Some(node)
   }
+  def traversal(): Unit = {
+    val result = scala.collection.mutable.ListBuffer[String]()
+
+    def _traversal(prefix: String, node: Node): Unit = {
+      if (node.isWord) {
+        result += prefix
+      }
+      node.childNode.zipWithIndex.foreach {
+        case (n, idx) if n != null => _traversal(prefix + ('a' + idx).toChar, n)
+        case _ =>
+      }
+
+    }
+
+    _traversal("", root)
+    result.foreach(s => println(s.mkString("")))
+
+  }
+
 }
