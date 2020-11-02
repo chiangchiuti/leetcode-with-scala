@@ -35,6 +35,12 @@ object Solution0 {
       right += 1
       /* while  condition means current window contains t */
       while(count == 0) {
+      /* update minWindow*/
+        if(len > (right - left)) {
+          len = right - left
+          head  = left
+        }
+
         val tempChar = s(left)
         budgetMap.get(tempChar) match {
           case Some(e) if e == 0 =>
@@ -44,11 +50,7 @@ object Solution0 {
             budgetMap.update(tempChar, e + 1)
           case None =>
         }
-        /* update minWindow*/
-        if(len > (right - left)) {
-          len = right - left
-          head  = left
-        }
+        
         left += 1
       }
     }

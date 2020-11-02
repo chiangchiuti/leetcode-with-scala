@@ -6,12 +6,16 @@ class KthLargest(_k: Int, _nums: Array[Int]) {
     val k = _k
     _nums.foreach(add)
 
+
     def add(`val`: Int): Int = {
         if (pq.size < k)
+            /* if only add one element at once, += is more effective than enqueue op */
             pq += `val`
+            // pq.enqueue(`val`)
         else if(pq.head < `val`){
             pq.dequeue
             pq += `val`
+            // pq.enqueue(`val`)
         }
         // println(pq.clone.dequeueAll)
         pq.head
