@@ -51,3 +51,28 @@ object Solution1-2 {
     }.get
   }
 }
+
+
+/**
+*  two pointer approximate
+*/
+object Solution2 {
+    def twoSum(nums: Array[Int], target: Int): Array[Int] = {
+        @annotation.tailrec
+        def _twoSum(v2Idx: Array[(Int, Int)], left: Int, right: Int): Array[Int] = {
+            if(left < right) {
+
+                val sum =  v2Idx(left)._1 + v2Idx(right)._1
+                
+                if(sum < target)  _twoSum(v2Idx, left + 1, right) 
+                else if(sum > target) _twoSum(v2Idx, left, right - 1)    
+                else  Array(v2Idx(left)._2, v2Idx(right)._2)
+                
+            }else  Array()
+        }
+        
+       val v2Idx = nums.zipWithIndex.sortBy(t => t._1)
+        _twoSum(v2Idx, 0, v2Idx.length - 1)
+        
+    }
+}

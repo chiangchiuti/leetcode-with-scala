@@ -1,7 +1,8 @@
 /**
+* my first commitment
 * dynamic programming from bottom to up
 */
-object Solution {
+object Solution1 {
     import scala.util.Try
   def minimumTotal(triangle: List[List[Int]]): Int = {
     val result = Array.ofDim[Array[Int]](triangle.size)
@@ -27,7 +28,7 @@ object Solution {
 *  P.S. but u should convert collection from immutable List to mutable array
 */
 
-object Solution1 {
+object Solution1-1 {
   def minimumTotal(triangle: List[List[Int]]): Int = {
     val result = triangle.map(_.toArray).toArray
     for (i <- result.length - 2 to 0 by -1) {
@@ -42,7 +43,7 @@ object Solution1 {
 * trick: dp is an array point to result's last array
 */
 
-object Solution2 {
+object Solution1-2 {
   def minimumTotal(triangle: List[List[Int]]): Int = {
     val result = triangle.map(_.toArray).toArray
     val dp = result.last

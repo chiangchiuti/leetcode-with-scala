@@ -3,7 +3,7 @@
 * time complexity: O(N^2)
 */
 
-object Solution {
+object Solution0 {
 
   import scala.collection.immutable.Queue
 
