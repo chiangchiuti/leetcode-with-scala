@@ -1,7 +1,49 @@
+
+/**
+* select solution
+* memo
+*   1. three array recording whether current value is valid
+*        1. rows array
+*        2. columns array
+*        3. blocks array
+* time complexity: O(1), just one iteration
+* space complexity: O(3), all sudoku are 9 x 9 
+*/
+object Solution0 {
+  def isValidSudoku(board: Array[Array[Char]]): Boolean = {
+      val size = board.length
+      val rows = Array.ofDim[Boolean](size, size)
+      val cols =  Array.ofDim[Boolean](size, size)
+      val blocks =  Array.ofDim[Boolean](size, size)
+      
+      val coords = for(i <- board.indices.view; j <- board.indices.view; if board(i)(j) != '.') yield (i, j)
+      
+      coords.forall{ case (i, j) => 
+          val num = board(i)(j).asDigit - 1
+          val blockIdx = (i / 3) * 3 + (j / 3)
+          if(!rows(i)(num) && !cols(j)(num) && !blocks(blockIdx)(num)){
+            rows(i)(num) = true
+            cols(j)(num) = true
+            blocks(blockIdx)(num) = true
+            true
+        
+          } else false
+      }
+  }
+}
+
+  
   /**
-  * recursive version
+  *  recursive version : DFS
+  *  memo
+  *    1. three array recording whether current value is valid
+  *        1. rows array
+  *        2. columns array
+  *        3. blocks array
+  * time complexity: O(1), just one iteration
+  * space complexity: O(3), all sudoku are 9 x 9
   */
-  object Solution {
+  object Solution1 {
 
     def isValidSudoku(board: Array[Array[Char]]): Boolean = {
       def _isValidSudoku(currentRow: Int, currentCol: Int, cols: Array[collection.mutable.Set[Char]], rows: Set[Char], blocks: Array[collection.mutable.Set[Char]]): Boolean = {
@@ -35,7 +77,13 @@
 
 /**
 * iterative
-* using 3 two-dimension array to store if num exits or not among row column and block
+* memo
+*   1. three array recording whether current value is valid
+*        1. rows array
+*        2. columns array
+*        3. blocks array
+* time complexity: O(1), just one iteration
+* space complexity: O(3), all sudoku are 9 x 9
 */
 object Solution2 {
     def isValidSudoku(board: Array[Array[Char]]): Boolean = {
@@ -68,7 +116,7 @@ object Solution2 {
 /**
 * it's no need for zipWithIndex: faster
 */
-object Solution3 {
+object Solution2-2 {
   def isValidSudoku(board: Array[Array[Char]]): Boolean = {
     val size = board.length
     val rows = Array.ofDim[Boolean](size, size)
@@ -77,21 +125,47 @@ object Solution3 {
 
 
     var result = true
-    for(i <- 0 until size; j <- 0 until size; if result) {
-      if(board(i)(j) != '.') {
-        val v = board(i)(j).asDigit - 1
-        val blockIdx = 3 * (i / 3) + (j / 3)
-
-        if(rows(i)(v) || cols(j)(v) || blocks(blockIdx)(v)) {
+    for(i <- 0 until size; j <- 0 until size; if board(i)(j) != '.' && result) {
+       val num = board(i)(j).asDigit - 1
+       val blockIdx = (i / 3) * 3 + (j / 3)
+      if(!rows(i)(num) && !cols(j)(num) && !blocks(blockIdx)(num)){
+          rows(i)(num) = true
+          cols(j)(num) = true
+          blocks(blockIdx)(num) = true
+          
+      }else {
           result = false
-        }
-
-        rows(i)(v) = true
-        cols(j)(v) = true
-        blocks(blockIdx)(v) = true
       }
+
     }
     result
   }
+}
+
+/**
+* function programming way without key word return in loop block
+*/
+
+object Solution2-3 {
+    def isValidSudoku(board: Array[Array[Char]]): Boolean = {
+        val size = board.length
+        val rows = Array.ofDim[Boolean](size, size)
+        val cols =  Array.ofDim[Boolean](size, size)
+        val blocks =  Array.ofDim[Boolean](size, size)
+        
+        val coords = for(i <- board.indices.view; j <- board.indices.view; if board(i)(j) != '.') yield (i, j)
+        
+        coords.forall{ case (i, j) => 
+            val num = board(i)(j).asDigit - 1
+            val blockIdx = (i / 3) * 3 + (j / 3)
+            if(!rows(i)(num) && !cols(j)(num) && !blocks(blockIdx)(num)){
+              rows(i)(num) = true
+              cols(j)(num) = true
+              blocks(blockIdx)(num) = true
+              true
+          
+            } else false
+        }
+    }
 }
 

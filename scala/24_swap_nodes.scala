@@ -5,6 +5,43 @@
  *   var x: Int = _x
  * }
  */
+
+/**
+* select solution
+* iterative version
+* memo
+*   1. dummyHead
+*   2. need two pointer: pre node and current node
+*  time complexity: O(N), each node only visit once
+*/
+object Solution0 {
+    def swapPairs(head: ListNode): ListNode = {
+        val nHead = new ListNode(0, head)
+        var pre: ListNode  = nHead
+        var curr = pre.next
+
+        while (curr != null && curr.next != null) {
+            val (pos1, pos2, next) = (curr, curr.next, curr.next.next)
+            pre.next = pos2
+            pos2.next = pos1
+            pos1.next = next
+
+            pre = pre.next.next
+            curr = pre.next  
+        }
+        
+        nHead.next
+    }
+}
+
+
+/**
+* iterative version
+* memo
+*   1. dummyHead
+*   2. need two pointer: pre node and current node
+*  time complexity: O(N), each node only visit once
+*/
 object Solution1 {
     def swapPairs(head: ListNode): ListNode = {
         val nHead = new ListNode(0, head)
@@ -26,7 +63,9 @@ object Solution1 {
 }
 
 
-
+/**
+* recursive version
+*/
 object Solution2 {
     def swapPairs(head: ListNode): ListNode = {
         _swap(head)

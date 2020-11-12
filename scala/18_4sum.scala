@@ -41,6 +41,7 @@ object Solution1 {
 
 /**
 * kSum template
+* time complexity O(N ^ (k - 1))
 */
 
 object Solution2 {

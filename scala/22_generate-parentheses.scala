@@ -1,8 +1,11 @@
 /**
-* 
+* my first commitment 
+* DFS + backtracking
+* time complexity： O(4^n / square(n))
+*     n-th Catalan number
 */
 
-object Solution {
+object Solution1 {
   def generateParenthesis(n: Int): List[String] = {
     val buffer = scala.collection.mutable.ListBuffer[String]()
     val l = "("
@@ -23,16 +26,18 @@ object Solution {
 }
 
 /**
+* closure number
 * a very genius and beautiful sol
 */
-object Solution {
-  def generateParenthesis(n: Int): List[String] = n match {
-    case 0 => List("")
-    case n =>
-      for {
-        m <- (0 to n - 1).toList
-        x <- generateParenthesis(m)
-        y <- generateParenthesis(n - 1 - m)
-      } yield ("(" ++ x ++ ")" ++ y)
-  }
+object Solution2 {
+  def generateParenthesis(n: Int): List[String] =
+    n match {
+      case 0 => List("")
+      case _ =>
+        for{
+          m <- (0 until n).toList  // ensure yield type is List instead of indexSeq
+          leftString <- generateParenthesis(m)
+          rightString <- generateParenthesis(n - m - 1)
+        } yield "(" ++ leftString ++ ")" ++ rightString
+    }
 }

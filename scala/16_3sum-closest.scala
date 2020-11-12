@@ -1,34 +1,42 @@
 
 /**
 * my first commit
-* two pointer
+* two pointer approximate
+* 
 * time complexity: O(N^2)
 */
 object Solution1 {
   def threeSumClosest(nums: Array[Int], target: Int): Int = {
     val l = nums.sorted
-
-    l.indices.foldLeft(l.take(3).sum) {  // slice(0, 3) is slower 
-      case(min, idx) =>
-        twoSum(l, target, min, idx)
+    // slice(0, 3) is slower 
+    l.indices.foldLeft(l.take(3).sum){
+      case (closestSum, idx) => twoSum(l, target, idx, closestSum)
     }
+
   }
-  def twoSum(nums: Array[Int], target: Int, min: Int, from: Int): Int = {
-    val fromValue = nums(from)
-    
-    @annotation.tailrec
-    def loop(i: Int, j: Int, min: Int): Int = {
 
-      if(i < j ){
-        val sum = fromValue + nums(i) + nums(j)
-        val newMin = if(math.abs(target - sum) <  math.abs(target - min)) sum else min
-        if(sum > target) loop(i, j - 1, newMin)
-        else if (sum < target) loop(i + 1, j, newMin)
-        else  loop(i + 1, j - 1, newMin)
-      }else {
-        min
-      }
+  def twoSum(nums: Array[Int], target: Int, from: Int, closestSum: Int): Int = {
+    val fromValue = nums(from)
+
+    @annotation.tailrec
+    def _twoSum(left: Int, right: Int, previousSum: Int): Int = {
+      if(left >= right) return previousSum
+
+
+      val currentSum = fromValue + nums(left) + nums(right)
+
+      val currentDiff = math.abs(target - currentSum)
+      val previousDiff = math.abs(target - previousSum)
+
+      val newClosest = if(currentDiff > previousDiff) previousSum else currentSum
+
+
+      if(currentSum < target) _twoSum(left + 1, right, newClosest)
+      else if(currentSum > target) _twoSum(left, right - 1, newClosest)
+      else _twoSum(left + 1, right - 1, newClosest)
+
     }
-    loop(from + 1, nums.length - 1, min)
+
+    _twoSum(from + 1, nums.length - 1, closestSum)
   }
 }
