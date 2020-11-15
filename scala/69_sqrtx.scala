@@ -28,7 +28,7 @@ object Solution0 {
 /**
 * my first commitment
 * binary search- iterative
-* time complexity: N(LogN)
+* time complexity: O(LogN)
 */
 object Solution1 {
   def mySqrt(x: Int): Int = {
@@ -56,6 +56,7 @@ object Solution1 {
 }
 /**
 * binary search - iterative
+* not return while in while block
 */
 object Solution1-2 {
     def mySqrt(x: Int): Int = {
@@ -84,7 +85,7 @@ object Solution1-2 {
 
 
 /**
-* binary search - recursive
+* binary search - recursive - top-down
 * memo:
 *   1. maintain max and min
 */
@@ -107,12 +108,11 @@ object Solution1-3 {
 }
 
 /**
-* Newton's method - recursive
+* Newton's method - iterative
 * y = x^2 => f(x) = x^2 - y
 * x_{k+1} = x_k - f(x_k) / f'(x_k)
 * x_{k+1} = x_k - (x_k^2 - y) / (2x_k) = (x_k + y / x_k) / 2
-* time complexity
-* O(logN)
+* time complexity: O(logN)
 */
 
 object Solution2 {
@@ -129,7 +129,7 @@ object Solution2 {
 }
 
 /**
-*  newton-method - recursive
+*  newton-method - recursive - top-down
 */
 
 object Solution {
