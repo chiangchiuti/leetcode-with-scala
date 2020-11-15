@@ -139,6 +139,7 @@ object Solution {
 
     @annotation.tailrec
     def _mySqrt(guess: Double, target: Int, precision: Double): Double = {
+        /* see? (guess * guess - target) is just our f(x) =  x^2 - y */
         if(math.abs(guess * guess - target) < precision) guess
         else _mySqrt((guess + (target / guess)) / 2, target, precision)
     }
