@@ -1,6 +1,7 @@
 /**
 * select solution
 * dynamic programming
+*    dp[i] defined as the sum of subarray that ending with ith element and must contains i-th element number   *
 * actually, we don't need storing all previous status of nums.length
 * we just need two status: one for maximum so far, the other one for the maximum accumulated value which containing with nums[i]
 *
@@ -47,6 +48,8 @@ object Solution1 {
 
 /**
 * dynamic programming
+* memo:
+*    1. dp[i] defined as the sum of subarray that ending with ith element and must contains i-th element number   
 * time complexity: O(N)
 * space complexity: O(N)  due to dp array
 */
@@ -88,5 +91,18 @@ object Solution2-1 {
         }
         maxSoFar
         
+    }
+}
+/**
+*  functional programming: foldLeft
+*/
+object Solution2-2 {
+    def maxSubArray(nums: Array[Int]): Int = {
+      if(nums == null || nums.isEmpty) return 0
+      (1 until nums.length).foldLeft((nums(0), nums(0))){
+          case ((maxEndingI, maxSofar), i) => 
+            val maxEndingT = nums(i) max (nums(i) + maxEndingI)
+            (maxEndingT, maxSofar max maxEndingT )
+      }._2
     }
 }
