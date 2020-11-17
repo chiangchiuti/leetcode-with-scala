@@ -88,7 +88,7 @@ object Solution2 {
     var base = x
 
     while (nn != 0) {
-     /* nn could be -1 if nn < 0 and run nn % 2 */
+     /* nn could be -1 if nn < 0 and run nn % 2, so using nn & 1 here */
       if((nn & 1) == 1)  ans = ans * base
       nn = nn / 2
       base = base * base
