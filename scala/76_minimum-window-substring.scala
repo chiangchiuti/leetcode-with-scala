@@ -6,7 +6,7 @@
 * @param
 * left right : two pointer for enlarging and reduce windows size
 * head and len: storing minWindow
-* count: count = 0 when  "left index until right index"  satisfy condition
+* count: count = 0 when  "left index until right index"  is satisfied condition
 */
 
 object Solution0 {
@@ -33,7 +33,7 @@ object Solution0 {
         }
       
       right += 1
-      /* while  condition means current window contains t */
+      /* running into while  condition means current window contains t */
       while(count == 0) {
       /* update minWindow*/
         if(len > (right - left)) {
@@ -60,8 +60,8 @@ object Solution0 {
 }
 
 /**
-* my first commit
-* sliding windows
+* my first commitment
+* sliding windows with two pointer: left and right
 * time complexity: O(|S| + |T|)
 */
 object Solution1 {

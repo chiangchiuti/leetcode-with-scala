@@ -6,7 +6,7 @@
 * time complexity: O(N)
 */
 
-object Solution {
+object Solution0 {
    def isValidBST(root: TreeNode): Boolean = {
     val stack = new collection.mutable.Stack[TreeNode]()
     var node = root
@@ -29,7 +29,9 @@ object Solution {
 }
 
 /**
-* inorder traversal: recursive version with all element storing
+* inorder recursive traversal
+* memo:
+*    1. recursive version with all element storing
 * Time complexity O(NlogN)  there are a distinct and sorted operation
 * space complexity O(N)
 */
@@ -49,13 +51,37 @@ object Solution1 {
 }
 
 
+
+/**
+* inorder recursive version only keep pre node
+* time complexity: O(N)
+*  ! Not recommend
+*/
+
+object Solution2 {
+    def isValidBST(root: TreeNode): Boolean = {
+
+    var prev: TreeNode = null
+    def _isValidBST(node: TreeNode): Boolean = {
+      if (node == null) return true
+      if (!_isValidBST(node.left)) return false
+      if (prev != null && node.value <= prev.value) {
+        return false
+      }
+      prev = node
+      _isValidBST(node.right)
+    }
+    _isValidBST(root)
+  }
+}
+
 /**
 * inorder iterative version only keep pre node
 *   inorder iterative template
 * time complexity: O(N)
 */
 
-object Solution1-2 {
+object Solution3 {
    def isValidBST(root: TreeNode): Boolean = {
     val stack = new collection.mutable.Stack[TreeNode]()
     var node = root
@@ -78,34 +104,11 @@ object Solution1-2 {
 }
 
 /**
-* inorder recursive version only keep pre node
-* time complexity: O(N)
-*  ! Not recommend
-*/
-
-object Solution1-3 {
-    def isValidBST(root: TreeNode): Boolean = {
-
-    var prev: TreeNode = null
-    def _isValidBST(node: TreeNode): Boolean = {
-      if (node == null) return true
-      if (!_isValidBST(node.left)) return false
-      if (prev != null && node.value <= prev.value) {
-        return false
-      }
-      prev = node
-      _isValidBST(node.right)
-    }
-    _isValidBST(root)
-  }
-}
-
-/**
 * giving min max range when recursive
 * time complexity: O(N)
 */
 
-object Solution2 {
+object Solution4 {
   def isValidBST(root: TreeNode): Boolean = {
 
     def _isValidBST(node: TreeNode, min: TreeNode, max: TreeNode): Boolean = {

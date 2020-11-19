@@ -8,8 +8,38 @@
  */
 
 /**
+* select solution
 * iterative version
 * time complexity: O(N)
+* space complexity: O(N)
+*/
+
+object Solution0 {
+    def inorderTraversal(root: TreeNode): List[Int] = {
+      var node = root
+      val stack = new collection.mutable.Stack[TreeNode]()
+      val result = new collection.mutable.ListBuffer[Int]()
+
+      while(node != null || stack.nonEmpty) {
+        while(node != null){
+          stack.push(node)
+          node = node.left
+        }
+
+        node = stack.pop()
+        result += node.value
+        node = node.right
+
+      }
+      result.toList
+    }
+}
+
+
+/**
+* iterative version
+* time complexity: O(N)
+* space complexity: O(N)
 */
 
 object Solution1 {
@@ -36,8 +66,9 @@ object Solution1 {
 /**
 * recursive version
 * time complexity: O(N)
+* space complexity: O(logN), worst: O(N)
 */
-object Solution1-2 {
+object Solution2 {
     def inorderTraversal(root: TreeNode): List[Int] = {
         _inorderTraversal(root)
     }
