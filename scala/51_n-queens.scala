@@ -21,7 +21,7 @@ object Solution0 {
     if(currentQueens.length == n) {
       ans += currentQueens
     }else{
-      val rowIdx = currentQueens.length - 1
+      val rowIdx = currentQueens.length
       (0 until n)
         .filter(colIdx => checkValid((rowIdx, colIdx), currentQueens, slash, backSlash))
         .foreach(colIdx => _solveNQueens(n, currentQueens :+ colIdx, slash + (rowIdx - colIdx), backSlash + (rowIdx + colIdx), ans))
@@ -87,7 +87,7 @@ object Solution1-2 {
     if(currentQueens.length == n) {
       ans += currentQueens
     }else{
-      val rowIdx = currentQueens.length - 1
+      val rowIdx = currentQueens.length
       (0 until n)
         .filter(colIdx => checkValid((rowIdx, colIdx), currentQueens, slash, backSlash))
         .foreach(colIdx => _solveNQueens(n, currentQueens :+ colIdx, slash + (rowIdx - colIdx), backSlash + (rowIdx + colIdx), ans))

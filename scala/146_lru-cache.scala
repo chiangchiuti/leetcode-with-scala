@@ -197,7 +197,7 @@ class LRUCache2(_capacity: Int) {
 
 
 /**
-* build in linkedHashMap
+* build-in linkedHashMap
 */
 class LRUCache3(_capacity: Int) {
 
