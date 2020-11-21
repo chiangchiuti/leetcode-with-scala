@@ -1,10 +1,49 @@
 /**
-* dynamic programming 
-*  using an 3-dim array to store all previous status
-*   [status index][k times transaction][buy or sell]
-*  
+* select solution
+* dynamic programming
+* memo 
+*    1: using an 3-dim array to record previous state
+*     dp definition: dp[2][j][l] means the best profit we can have at i-th day using EXACT j transactions and with/without stocks in hand.
+*  time complexity: O(NK), N: the length of prices; k: transaction's restrictions
+*  space complexity: O(K),  worst case: O(N)N
+*/ 
+object Solution0 {
+    def maxProfit(k: Int, prices: Array[Int]): Int = {
+        if(prices == null || prices.length < 2 || k < 1 ) return 0
+        val kk = if(2 * k > prices.length) prices.length / 2 else k
+        
+        val dp = Array.tabulate(2, kk, 2) {
+            case (_, _, 0) => Int.MinValue
+            case (_, _, 1) => 0
+            case _ => 0
+        }
+        
+        for(i <- prices.indices; j <- 0 until kk){
+            val current = i & 1
+            val previous = current ^1
+            // 0 for buy, 1 for sell
+            dp(current)(j)(1) = dp(previous)(j)(1) max (dp(previous)(j)(0) + prices(i))
+            dp(current)(j)(0) = dp(previous)(j)(0) max {
+                if(j == 0) -prices(i)
+                else dp(previous)(j - 1)(1) - prices(i)
+            }
+            
+        }
+        
+        dp((prices.length - 1) & 1).map(_(1)).max
+        
+    }
+}
+/**
+* my first commitment
+* dynamic programming
+* memo 
+*    1: using an 3-dim array to record all previous state
+*         dp[state index][k times transaction][buy or sell]
+*     dp definition: dp[i][j][l] means the best profit we can have at i-th day using EXACT j transactions and with/without stocks in hand.
+*  time complexity: O(NK), N: the length of prices; k: transaction's constraint
 */
-object Solution {
+object Solution1 {
   def maxProfit(k: Int, prices: Array[Int]): Int = {
     if(prices == null || prices.length < 2 || k < 1 ) return 0
     if(k * 2 >=  prices.length) return prices.sliding(2).collect{case arr if arr(1) > arr(0) => arr(1) - arr(0)}.sum
@@ -36,9 +75,13 @@ object Solution {
 
 /**
 * dp: decrease status array which only keep current and precious status
+* memo
+*    1. dp definition: dp[2][j][l] means the best profit we can have at i-th day using EXACT j transactions and with/without stocks in hand.
+* time complexity: O(NK), N: the length of prices; k: transaction's constraint
+* space complexity: O(K),  worst case: O(N)
 */
 
-object Solution1 {
+object Solution1-2 {
   def maxProfit(k: Int, prices: Array[Int]): Int = {
     if(prices == null || prices.length < 2 || k < 1 ) return 0
     if(k * 2 >=  prices.length) return prices.sliding(2).collect{case arr if arr(1) > arr(0) => arr(1) - arr(0)}.sum
@@ -80,4 +123,38 @@ object Solution1 {
             println(" ")
         }
   }
+}
+/**
+* dp: decrease status array which only keep current and precious status
+* memo
+*    1. dp definition: dp[2][j][l] means the best profit we can have at i-th day using EXACT j transactions and with/without stocks in hand.
+* time complexity: O(NK), N: the length of prices; k: transaction's constraint
+* space complexity: O(K),  worst case: O(N)
+*/
+object Solution1-3 {
+    def maxProfit(k: Int, prices: Array[Int]): Int = {
+        if(prices == null || prices.length < 2 || k < 1 ) return 0
+        val kk = if(2 * k > prices.length) prices.length / 2 else k
+        
+        val dp = Array.tabulate(2, kk, 2) {
+            case (_, _, 0) => Int.MinValue
+            case (_, _, 1) => 0
+            case _ => 0
+        }
+        
+        for(i <- prices.indices; j <- 0 until kk){
+            val current = i & 1
+            val previous = current ^1
+            // 0 for buy, 1 for sell
+            dp(current)(j)(1) = dp(previous)(j)(1) max (dp(previous)(j)(0) + prices(i))
+            dp(current)(j)(0) = dp(previous)(j)(0) max {
+                if(j == 0) -prices(i)
+                else dp(previous)(j - 1)(1) - prices(i)
+            }
+            
+        }
+        
+        dp((prices.length - 1) & 1).map(_(1)).max
+        
+    }
 }
