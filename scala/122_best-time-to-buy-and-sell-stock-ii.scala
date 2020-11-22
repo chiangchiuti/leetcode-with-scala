@@ -68,6 +68,10 @@ object Solution2-1 {
         dp(0) = 0
         dp(1) = -prices(0)
         for(i <- 1 until prices.size) {
+        /*
+        * it may causes a problem here, because we overwrite the previous dp(0) by new state i value and dp(1) would utilizes dp(0) which was overwritten 
+        * in this problem, a stock can be bought or sold for multiple times in one day, so overwriting is not matter
+        */
             dp(0) = dp(0) max (dp(1) + prices(i))
             dp(1) = dp(1) max (dp(0) - prices(i))
         }
