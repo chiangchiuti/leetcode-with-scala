@@ -1,5 +1,5 @@
 /**
-* Select Solution
+* chosen solution
 * two pointer to control sliding window
 *   1. two pointer: left and right to control substring window
 *   2. counter and hashmap to record whether current window is valid or not

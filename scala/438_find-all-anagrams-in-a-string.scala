@@ -1,5 +1,5 @@
 /**
-* select solution
+* chosen solution
 * sliding window
 * using a mutable map storing current window's string element and amount
 * time complexity: O(N)

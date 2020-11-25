@@ -7,7 +7,7 @@
  */
 
 /**
-* select solution
+* chosen solution
 * iterative version
 * memo
 *   1. dummyHead

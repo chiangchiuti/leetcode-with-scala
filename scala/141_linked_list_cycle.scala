@@ -7,33 +7,39 @@
  */
 
 /**
-* select solution
-* 利用兩個 pointer 一個走得快 一個走的慢， 若有 cycle : fast pointer 遲早會追上 slow pointer
-* time complexity: O(N)
-* space complexity: O(1)
+* chosen solution
+* memo
+*      1. create two pointers one work faster with two step the other work slower with a step
+*         if there is a cycle in linked list, the faster pointer will equal to  slower pointer sooner or later
+*
+* time complexity: 
+*       no cycle: O(N)
+*       has cycleL O(N + K) K is the cycle length
+* space complexity: O(1) )
 */
 
 object Solution0 {
     def hasCycle(head: ListNode): Boolean = {
-        var pointerA = head
-        var pointerB = head
-        
-        
-        var result = false
-        while (pointerA != null && pointerA.next != null && result != true) {
-            pointerA = pointerA.next.next
-            pointerB = pointerB.next
-        
-            if(pointerA == pointerB) result = true
-        }
-        result
+        if(head != null && head.next != null) 
+            _hasCycle(head.next.next, head.next)
+        else false
+    }
+    
+    @annotation.tailrec
+    def _hasCycle(fast: ListNode, slow: ListNode): Boolean = {
+        if(fast == null || fast.next == null || slow == null) return false
+        else if(fast == slow) return true
+        else _hasCycle(fast.next.next, slow.next)
     }
 }
 
 
-
 /**
-* 用一個 seen set 記錄看過的, iterative version
+* seen set  iterative version
+* memo
+*     using a set to record the node which was seen
+* time complexity: O(N)
+* space complexity: O(N)
 */
 object Solution1 {
     def hasCycle(head: ListNode): Boolean = {
@@ -56,7 +62,11 @@ object Solution1 {
     }
 }
 /**
-* 用一個 seen set 記錄看過的, recursive version
+* seen set - recursive version
+* memo
+*     using a set to record the node which was seen
+* time complexity: O(N)
+* space complexity: O(N)
 */
 object Solution2 {
     def hasCycle(head: ListNode): Boolean = {
@@ -78,9 +88,15 @@ object Solution2 {
 }
 
 /**
-* 利用兩個 pointer 一個走得快 一個走的慢， 若有 cycle : fast pointer 遲早會追上 slow pointer
-* time complexity: O(N)
-* space complexity: O(1)
+* two pointer - iterative version
+* memo
+*      1. create two pointers one work faster with two step the other work slower with a step
+*         if there is a cycle in linked list, the faster pointer will equal to  slower pointer sooner or later
+*
+* time complexity: 
+*       no cycle: O(N)
+*       has cycleL O(N + K) K is the cycle length
+* space complexity: O(1) 
 */
 object Solution3 {
     def hasCycle(head: ListNode): Boolean = {
@@ -99,13 +115,19 @@ object Solution3 {
     }
 }
 
+/**
+* two pointer - recursive version
+* time complexity: 
+*       no cycle: O(N)
+*       has cycleL O(N + K) K is the cycle length
+* space complexity: O(1)     
+*/
 object Solution4 {
     def hasCycle(head: ListNode): Boolean = {
         if( head != null && head.next != null) 
             _hasCycle(head.next, head)
         else 
             false
-       
     }
     
     def _hasCycle(fast: ListNode, slow: ListNode): Boolean = {
@@ -115,9 +137,24 @@ object Solution4 {
             case (_, _, true) => true
             case (_, _, false) => 
                 if (fast.next == null) false
-                else _hasCycle(fast.next.next, slow.next)
-            
-        }
-        
+                else _hasCycle(fast.next.next, slow.next)   
+        }  
     } 
+}
+/**
+* two pointer - tail recursive
+*/
+object Solution4-1 {
+    def hasCycle(head: ListNode): Boolean = {
+        if(head != null && head.next != null) 
+            _hasCycle(head.next.next, head.next)
+        else false
+    }
+    
+    @annotation.tailrec
+    def _hasCycle(fast: ListNode, slow: ListNode): Boolean = {
+        if(fast == null || fast.next == null || slow == null) return false
+        else if(fast == slow) return true
+        else _hasCycle(fast.next.next, slow.next)
+    }
 }

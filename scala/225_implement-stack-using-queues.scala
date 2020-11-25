@@ -9,7 +9,7 @@
 
 
 /**
-* select solution
+* chosen solution
 * one queue version
 * time complexity
 *   push: O(2n+1) n is the element in queue1

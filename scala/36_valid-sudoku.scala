@@ -1,6 +1,6 @@
 
 /**
-* select solution
+* chosen solution
 * memo
 *   1. three array recording whether current value is valid
 *        1. rows array

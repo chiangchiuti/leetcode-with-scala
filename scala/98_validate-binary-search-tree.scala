@@ -1,5 +1,5 @@
 /**
-* select solution
+* chosen solution
 * inorder iterative version only keep pre node
 * this is also the inorder-iterative-template
 * 

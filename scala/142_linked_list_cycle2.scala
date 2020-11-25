@@ -1,5 +1,5 @@
 /**
-* select solution 
+* chosen solution 
 * two pointer: tail recursive
 * time complexity: O(N)
 * space complexity: O(1)
@@ -46,13 +46,10 @@ object Solution1 {
             // println(result)
             if(seenSet.contains(p))  
                 result = p
-
             else {
                 seenSet += p
                 p = p.next
-            
             }
- 
         }
         result
         
@@ -71,7 +68,6 @@ object Solution2 {
         else None
             
         meetPoint match {
-            
             case None => null
             case Some(slow1) => getStartOfLoop(head, meetPoint)   
         }

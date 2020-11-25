@@ -1,6 +1,6 @@
 
 /**
-* my first commit
+* my first commitment
 * two pointer approximate
 * 
 * time complexity: O(N^2)

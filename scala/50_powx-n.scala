@@ -1,5 +1,5 @@
 /**
-* select solution
+* chosen solution
 * recursive - bottom-up
 * memo
 *   1. n may be negative or positive

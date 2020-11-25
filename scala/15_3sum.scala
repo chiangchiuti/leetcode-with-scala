@@ -1,5 +1,5 @@
 /**
-* select solution
+* chosen solution
 * 1. two pointer in twoSum
 * 2. result storing in hashSet to avoid duplicate pairs
 * time complexity: O(N^2)

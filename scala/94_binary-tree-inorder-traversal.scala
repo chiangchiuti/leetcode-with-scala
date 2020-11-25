@@ -8,7 +8,7 @@
  */
 
 /**
-* select solution
+* chosen solution
 * iterative version
 * time complexity: O(N)
 * space complexity: O(N)

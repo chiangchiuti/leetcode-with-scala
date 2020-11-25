@@ -1,6 +1,6 @@
 
 /**
-* select solution
+* chosen solution
 * one line version
 * time complexity: O(N)
 */

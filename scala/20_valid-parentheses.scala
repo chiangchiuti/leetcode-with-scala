@@ -1,5 +1,5 @@
 /**
-* select solution
+* chosen solution
 * using stack X FP
 * time complexity: O(N)
 * space complexity: O(N)

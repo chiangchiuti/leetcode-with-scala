@@ -1,5 +1,5 @@
 /**
-* select solution
+* chosen solution
 * directly compare char by char
 * if there are only one word should be checked in board, brute force is a more efficient method
 */

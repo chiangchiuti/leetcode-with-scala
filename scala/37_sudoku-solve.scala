@@ -1,5 +1,5 @@
 /**
-* selected solution
+* chosen solution
 * DFS + pruning + queue
 * time complexity: O(N^2)
 */

@@ -1,5 +1,5 @@
 /**
-* select solution
+* chosen solution
 * BFS iterative
 * time complexity O(N）
 */

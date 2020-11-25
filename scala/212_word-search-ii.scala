@@ -1,6 +1,6 @@
 
 /**
-* select solution
+* chosen solution
 * tries + dfs + pruning
 *    put all words into tries
 *    DFS way searching all char in board composing a word and searching whether the word exists in tries

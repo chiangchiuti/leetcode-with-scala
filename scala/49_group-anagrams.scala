@@ -1,5 +1,5 @@
 /**
-* select solution
+* chosen solution
 * time complexity: O(N KLogK) : N: strs.length, K: the longest string in strs 
 */
 object Solution0 {

@@ -1,5 +1,5 @@
 /**
-* select solution
+* chosen solution
 * time complexity: O(N)
 */
 

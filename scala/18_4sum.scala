@@ -1,5 +1,5 @@
 /**
-* my first commit
+* my first commitment
 * two pointer in twoSum
 * time complexity: O(N^3)
 */

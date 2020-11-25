@@ -1,5 +1,5 @@
 /**
-* select solution
+* chosen solution
 * dynamic programming
 *    dp[i] defined as the sum of subarray that ending with ith element and must contains i-th element number   *
 * actually, we don't need storing all previous status of nums.length

@@ -1,5 +1,5 @@
 /**
-* select solution
+* chosen solution
 * iterative - bottom up with memorization
 * only record n -1 and n -2 status
 * time complexity O(N)

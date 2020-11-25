@@ -1,5 +1,5 @@
 /**
-* select solution
+* chosen solution
 * dfs + floodfill
 * time complexity: O(N*M) N is the grid length, M is the grid width
 */
@@ -76,39 +76,6 @@ object Solution1 {
 * Union & Find 
 * without modify original grid's elements
 */
-class UnionFind(grid: Array[Array[Char]]) {
-  private val n = grid.length
-  private val m = grid(0).length
-  private val roots = Array.tabulate(n * m)(i => i)
-  var counter = (for (i <- 0 until n; j <- 0 until m) yield (i, j)).foldLeft(0) { case (c, (i, j)) => if (grid(i)(j) == '1') c + 1 else c }
-
-  private def findRoot(coord: (Int, Int)): Int = {
-    var index = coord._1 * m + coord._2
-    var root = index
-
-    while (root != roots(root)) root = roots(root)
-    // compression
-    while (index != roots(index)) {
-      val tmp = roots(index)
-      roots(index) = root
-      index = tmp
-    }
-    root
-  }
-
-  def connected(coordA: (Int, Int), coordB: (Int, Int)): Boolean = {
-    findRoot(coordA) == findRoot(coordB)
-  }
-
-  def union(coordA: (Int, Int), coordB: (Int, Int)): Unit = {
-    val Aroot = findRoot(coordA)
-    val Broot = findRoot(coordB)
-    if (Aroot != Broot) {
-      roots(Aroot) = Broot
-      counter -= 1
-    }
-  }
-}
 
 
 object Solution2 {
@@ -149,3 +116,36 @@ object Solution2 {
   }
 }
 
+class UnionFind(grid: Array[Array[Char]]) {
+  private val n = grid.length
+  private val m = grid(0).length
+  private val roots = Array.tabulate(n * m)(i => i)
+  var counter = (for (i <- 0 until n; j <- 0 until m) yield (i, j)).foldLeft(0) { case (c, (i, j)) => if (grid(i)(j) == '1') c + 1 else c }
+
+  private def findRoot(coord: (Int, Int)): Int = {
+    var index = coord._1 * m + coord._2
+    var root = index
+
+    while (root != roots(root)) root = roots(root)
+    // compression
+    while (index != roots(index)) {
+      val tmp = roots(index)
+      roots(index) = root
+      index = tmp
+    }
+    root
+  }
+
+  def connected(coordA: (Int, Int), coordB: (Int, Int)): Boolean = {
+    findRoot(coordA) == findRoot(coordB)
+  }
+
+  def union(coordA: (Int, Int), coordB: (Int, Int)): Unit = {
+    val Aroot = findRoot(coordA)
+    val Broot = findRoot(coordB)
+    if (Aroot != Broot) {
+      roots(Aroot) = Broot
+      counter -= 1
+    }
+  }
+}

@@ -8,7 +8,7 @@
  */
 
 /**
-*  select solution
+*  chosen solution
 *  DFS with recursive
 *  time complexity O(N)
 *  space complexity O(N)

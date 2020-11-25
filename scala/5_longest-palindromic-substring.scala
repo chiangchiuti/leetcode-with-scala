@@ -1,6 +1,6 @@
 
 /**
-* select solution
+* chosen solution
 * expand around center
 * time complexity: O(N * 2 * N) = O(N^2)
 *        expandLengths: O(N)
@@ -229,7 +229,7 @@ object Solution4 {
                 val oddlen =  expandLengths(s, i, i)
                 val evenlen = expandLengths(s, i, i + 1)
                 val len = oddlen max evenlen
-                if(len > maxlen)  (i -  (len - 1) / 2, len)
+                if(len > maxlen)  (i - (len - 1) / 2, len)
                 else (h, maxlen)
         }
         s.slice(head, head + maxlen)

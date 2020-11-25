@@ -1,5 +1,5 @@
 /**
-* select solution
+* chosen solution
 * dynamic programming
 * memo
 *   1. dp(i) represent climb to i floor's distinct ways

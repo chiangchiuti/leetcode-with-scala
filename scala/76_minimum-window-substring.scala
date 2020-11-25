@@ -1,5 +1,5 @@
 /**
-* select solution
+* chosen solution
 *   time complexity: O(|S| + |T|)
 *   space complexity: O(|T|)
 * sliding windows: faster version

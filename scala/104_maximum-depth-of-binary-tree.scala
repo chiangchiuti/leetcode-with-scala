@@ -8,7 +8,7 @@
  */
 
 /**
-* Select Solution
+* chosen solution
 * BFS - recursive
 * time complexity: O(N), N is the total node in tree
 * space complexity: O(logN) depending on the depth of tree

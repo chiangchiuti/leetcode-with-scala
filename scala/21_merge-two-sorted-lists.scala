@@ -1,5 +1,5 @@
 /**
-* select solution
+* chosen solution
 * time complexity: O(N + M), N is the length of l1, M is the length of l2
 */
 

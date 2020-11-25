@@ -1,5 +1,5 @@
 /**
-* select solution
+* chosen solution
 * dynamic programming
 * memo 
 *    1: using an 3-dim array to record previous state

@@ -1,6 +1,6 @@
 
 /**
-* select solution 
+* chosen solution 
 * using java array deque (double side queue) version which remove first/last element from collection is O(1)
 * time complexity O(N)
 */

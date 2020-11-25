@@ -1,5 +1,5 @@
 /**
-* select solution
+* chosen solution
 *  using tries:
 *    words = ["time", "me", "bell"]
 *    reverse word tries: "emit", "em", "lleb"

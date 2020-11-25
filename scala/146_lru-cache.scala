@@ -1,6 +1,6 @@
 
 /**
-* select solution
+* chosen solution
 * build-in linkedHashMap
 * time complexity: O(1)
 */
@@ -10,12 +10,13 @@ class LRUCache0(_capacity: Int) {
   val cache = collection.mutable.LinkedHashMap[Int, Int]()
 
   def get(key: Int): Int = {
-    cache.get(key).map{
-      value =>
-        cache.remove(key)
-        cache.update(key, value)
-        value
-    }.getOrElse(-1)
+    cache.get(key) match {
+        case Some(v) => 
+            cache.remove(key)
+            cache.put(key, v)
+            v
+        case None => -1
+    }
   }
 
   def put(key: Int, value: Int): Unit = {
@@ -32,7 +33,6 @@ class LRUCache0(_capacity: Int) {
     }
   }
 }
-.
 
 /**
 * my first commitment
@@ -134,7 +134,7 @@ def put(key: Int, value: Int) {
 
 /**
 * double linked list + hashset
-*time complexity:
+* time complexity:
 *    get, put, delete: O(1)
 */
 
@@ -205,12 +205,21 @@ class LRUCache3(_capacity: Int) {
   val cache = collection.mutable.LinkedHashMap[Int, Int]()
 
   def get(key: Int): Int = {
-    cache.get(key).map{
-      value =>
-        cache.remove(key)
-        cache.update(key, value)
-        value
-    }.getOrElse(-1)
+  /**
+   *cache.get(key).map{
+   *   value =>
+   *     cache.remove(key)
+   *     cache.update(key, value)
+   *     value
+   * }.getOrElse(-1)
+   */
+   cache.get(key) match {
+            case Some(v) => 
+                cache.remove(key)
+                cache.put(key, v)
+                v
+            case None => -1
+        }
   }
 
   def put(key: Int, value: Int): Unit = {
@@ -227,4 +236,3 @@ class LRUCache3(_capacity: Int) {
     }
   }
 }
-.

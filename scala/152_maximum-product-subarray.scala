@@ -1,12 +1,15 @@
+
 /**
-* Selected Solution
-* using dp array to record previous max min value
-* and each state i update 
-*  1. max(current v,  previous state max value * current value,  previous state min value * current value)
-*  2. min(current v,  previous state max value * current value,  previous state min value * current value)
+* chosen solution
+* dynamic programming
+* using dp array to record previous max min value ending at index i-th
+*   dp(i)(j) means the maximum and minimum contiguous product ending at i-th position
+*   each state i update 
+*        1. max(current v,  previous state max value * current value,  previous state min value * current value)
+*        2. min(current v,  previous state max value * current value,  previous state min value * current value)
+*
 *  time complexity: O(N)
-*  space  complexity: O(2N), actually it can be optimized to O(4) which only record both current and previous min and max
-*/
+*/ 
 
 object Solution0 {
   def maxProduct(nums: Array[Int]): Int = {
@@ -28,11 +31,12 @@ object Solution0 {
 }
 
 /**
+* my first commitment
 * recursive version : correct but may cause memory exceed limit
+* time complexity: O(N^2)
 */
 object Solution1 {
   def maxProduct(nums: Array[Int]): Int = {
-    
     (1 to nums.length).map(n =>  _maxProduct(nums(n - 1), nums.takeRight(nums.length - n))).max
   }
 
@@ -44,16 +48,14 @@ object Solution1 {
 
 
 /**
-* optimize from above one
+* optimize above one
 * don't copy subArray during transmit parameters
 * time complexity： O(N^2)
 */
 object Solution1-2 {
   def maxProduct(nums: Array[Int]): Int = {
-      
     (1 to nums.length).map(n =>  _maxProduct(nums(n - 1), n, nums)).max
   }
-    
   def _maxProduct(curr: Int, idx: Int, nums: Array[Int]): Int = {
       if(idx >= nums.length) return curr   
       curr max  _maxProduct( curr * nums(idx), idx + 1, nums)
@@ -61,16 +63,68 @@ object Solution1-2 {
 
 }
 
-
-
+/**
+* dynamic programming
+* using dp array to record previous max min value ending at index i-th
+*   dp(i)(j) means the maximum and minimum contiguous product ending at i-th position
+*   each state i update 
+*        1. max(current v,  previous state max value * current value,  previous state min value * current value)
+*        2. min(current v,  previous state max value * current value,  previous state min value * current value)
+*
+*  time complexity: O(N)
+*  space  complexity: O(2N), actually it can be optimized to O(2) which records previous min and max value
+*/
+object Solution2 {
+    def maxProduct(nums: Array[Int]): Int = {
+        // 0:  minimum , 1:  maximum
+        val dp = Array.ofDim[Int](nums.length, 2)
+        dp(0)(0) = nums(0)
+        dp(0)(1) = nums(0)
+        
+        for(i <- 1 until nums.length) {
+            val a = dp(i - 1)(0) * nums(i) 
+            val b = dp(i - 1)(1) * nums(i)
+            dp(i)(0) = a min b min nums(i)
+            dp(i)(1) = a max b max nums(i)
+        }
+        
+        
+        dp.map(_(1)).max
+    }
+}
 
 
 /**
-* a recursive method： not my own 
+* dynamic programming
+* memo
+*   1. only keep previous state 
+* time complexity: O(N)
+* space complexity: O(1)
 */
+object Solution2-1 {
+    def maxProduct(nums: Array[Int]): Int = {
+        
+        val (_, _, ans) = (1 until nums.length).foldLeft((nums.head, nums.head, nums.head)){
+            case ((min, max, ans), idx) => 
+                val a = nums(idx) * min 
+                val b = nums(idx) * max
+                val newMin = a min b min nums(idx)
+                val newMax = a max b max nums(idx)
+                (newMin, newMax, ans max newMax)
+        }
+        ans
+    }
+}
 
 
-object Solution2 {
+/**
+* a recursive dp method： not my own 
+* memo
+*   1. only keep the closest state
+* time complexity: O(N)
+* space complexity: O(N) although it don;t create a length of nums array, it convert nums array to list
+*/
+object Solution2-2 {
     def maxProduct(nums: Array[Int]): Int = {
         if (nums == null || nums.size == 0) {
             return 0;

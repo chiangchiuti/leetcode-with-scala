@@ -1,6 +1,6 @@
 
 /**
-* select solution
+* chosen solution
 * binary search - recursive
 * memo:
 *   1. maintain max and min

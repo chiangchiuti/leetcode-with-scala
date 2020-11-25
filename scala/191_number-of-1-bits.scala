@@ -1,7 +1,26 @@
 /**
-* fixed size: 32 bits, so O(1)
+* chosen solution
+* bit operation - recursive version
+* time complexity: O(1)
 */
-object Solution {
+object Solution0{
+    // you need treat n as an unsigned value
+    def hammingWeight(n: Int): Int = {
+        _hammingWeight(n, 0)
+    }
+    
+    @annotation.tailrec
+    def _hammingWeight(n: Int, counter: Int): Int = {
+        if(n  == 0) counter
+        else _hammingWeight(n & (n - 1), counter + 1 )
+    }
+}
+
+/**
+* my first commitment
+* time complexity: fixed size: 32 bits, so O(1)
+*/
+object Solution0 {
     // you need treat n as an unsigned value
     def hammingWeight(n: Int): Int = {
 
@@ -20,9 +39,12 @@ object Solution {
 
 
 /**
-* using bit operation :  x = x & (x -1)  to set the last non zero pos to zero
+* bit operation - iterative version
+* memo
+*    1. using bit operation :  x = x & (x -1)  to set the last non zero pos to zero
+*
 */
-object Solution {
+object Solution1 {
     // you need treat n as an unsigned value
     def hammingWeight(n: Int): Int = {
 
@@ -34,5 +56,21 @@ object Solution {
         }
         
         counter
+    }
+}
+
+/**
+* bit operation - recursive version
+*/
+object Solution1-2 {
+    // you need treat n as an unsigned value
+    def hammingWeight(n: Int): Int = {
+        _hammingWeight(n, 0)
+    }
+    
+    @annotation.tailrec
+    def _hammingWeight(n: Int, counter: Int): Int = {
+        if(n  == 0) counter
+        else _hammingWeight(n & (n - 1), counter + 1 )
     }
 }

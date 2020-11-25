@@ -1,5 +1,5 @@
 /**
-* select solution
+* chosen solution
 * 思路: 每個 row 上出現的 Q 的 column index 不會重複, 正斜線 (i + j) 和反斜線 ( i -j ) 上唯一
 * memo:
 *    1. using three extra collection
