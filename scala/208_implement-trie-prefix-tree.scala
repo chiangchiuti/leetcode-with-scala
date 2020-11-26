@@ -6,6 +6,58 @@
  * var param_3 = obj.startsWith(prefix)
  */
 
+/**
+* chosen solution
+* Node implement by hashmap
+*/
+case class Node(next: scala.collection.mutable.Map[Char, Node] = scala.collection.mutable.Map(), var isWord: Boolean = false){
+  def update(char: Char, node: Node): Unit = next(char) = node
+  def apply(char: Char): Option[Node] = next.get(char)
+}
+
+class Trie0() {
+  /** Initialize your data structure here. */
+  val root = Node()
+
+  /** Inserts a word into the trie. */
+  def insert(word: String) {
+    var node = root
+    word.foreach{ c =>
+      node(c) match {
+        case Some(n) =>
+          node = n
+        case None =>
+          node(c) = Node()
+          node = node(c).get
+      }
+    }
+    node.isWord = true
+  }
+
+  /** Returns if the word is in the trie. */
+  def search(word: String): Boolean = {
+    searchUtil(word).exists(_.isWord)
+  }
+
+  /** Returns if there is any word in the trie that starts with the given prefix. */
+  def startsWith(prefix: String): Boolean = {
+    searchUtil(prefix).isDefined
+  }
+
+  private def searchUtil(s: String): Option[Node] = {
+    var node = root
+
+    s.foreach{ c =>
+      node(c) match {
+        case Some(n) => node = n
+        case None => return None
+      }
+    }
+    Some(node)
+  }
+
+}
+
 
 
 /**
@@ -155,6 +207,57 @@ class Trie1-2() {
     _traversal("", root)
     result.foreach(s => println(s.mkString("")))
 
+  }
+
+}
+
+/**
+* Node implement by hashmap
+*/
+case class Node(next: scala.collection.mutable.Map[Char, Node] = scala.collection.mutable.Map(), var isWord: Boolean = false){
+  def update(char: Char, node: Node): Unit = next(char) = node
+  def apply(char: Char): Option[Node] = next.get(char)
+}
+
+class Trie2() {
+  /** Initialize your data structure here. */
+  val root = Node()
+
+  /** Inserts a word into the trie. */
+  def insert(word: String) {
+    var node = root
+    word.foreach{ c =>
+      node(c) match {
+        case Some(n) =>
+          node = n
+        case None =>
+          node(c) = Node()
+          node = node(c).get
+      }
+    }
+    node.isWord = true
+  }
+
+  /** Returns if the word is in the trie. */
+  def search(word: String): Boolean = {
+    searchUtil(word).exists(_.isWord)
+  }
+
+  /** Returns if there is any word in the trie that starts with the given prefix. */
+  def startsWith(prefix: String): Boolean = {
+    searchUtil(prefix).isDefined
+  }
+
+  private def searchUtil(s: String): Option[Node] = {
+    var node = root
+
+    s.foreach{ c =>
+      node(c) match {
+        case Some(n) => node = n
+        case None => return None
+      }
+    }
+    Some(node)
   }
 
 }

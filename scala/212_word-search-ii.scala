@@ -2,54 +2,100 @@
 /**
 * chosen solution
 * tries + dfs + pruning
-*    put all words into tries
-*    DFS way searching all char in board composing a word and searching whether the word exists in tries
+* memo
+*   1. put all words into tries which is implemented by hashmap
+*   2. DFS way searching all char in board composing a word and searching whether the word exists in tries
+*   3. in dfs, we directly input the node from tries instead of tries itself 
+*   4. pruning an edge after matching a word and its children couldn't represent a word
 */
+import scala.collection.mutable
+case class Node(next: mutable.Map[Char, Node] = mutable.Map.empty, var isWord: Boolean = false){
+  def apply(char: Char): Option[Node] = next.get(char)
+  def update(char: Char, node: Node): Unit = next(char) = node
+}
+
+class Tries(){
+  val root = Node()
+  def insert(word: String): Unit = {
+    var node = root
+    word.foreach { c =>
+      node(c) match {
+        case Some(n) => node = n
+        case None =>
+          node(c) = Node()
+          node = node(c).get
+      }
+    }
+    node.isWord = true
+  }
+
+  def startsWith(prefix: String): Boolean = searchUtil(prefix).isDefined
+  def search(word: String): Boolean =  searchUtil(word).exists(_.isWord)
+
+  def searchUtil(s: String): Option[Node] = {
+    var node = root
+    s.foreach { c =>
+      node(c) match {
+        case Some(n) => node = n
+        case None => return None
+      }
+    }
+    Some(node)
+  }
+}
+
+
 object Solution0 {
-  private val visitedLabel = '#'
   def findWords(board: Array[Array[Char]], words: Array[String]): List[String] = {
-    val tries = new Trie()
+    val tries = new Tries()
     words.foreach(tries.insert)
     dfs(tries, board)
   }
 
+  def dfs(tries: Tries, board: Array[Array[Char]]): List[String] = {
+    def _dfs(coord: (Int, Int), currentString: String,  node: Node, ans: mutable.Set[String]): Unit = {
+      val (row, col) = coord
+      val char = board(row)(col)
+      node(char) match {
+        case Some(nextNode) =>
+            val newString = currentString + char
+            if(nextNode.isWord) ans += newString
+            board(row)(col) = '#'
+            neighbors(coord, (board.length, board(0).length)).foreach {
+              case (nr, nc) if board(nr)(nc) != '#' => _dfs((nr, nc), newString, nextNode, ans)
+              case _ =>
+           }
+          board(row)(col) = char
+          /** pruning */
+          if(nextNode.next.isEmpty) node.next.remove(char)
 
-  def dfs(tries: Trie, board: Array[Array[Char]]): List[String] = {
-    def _dfs(coord: (Int, Int), prePrefix: String, board: Array[Array[Char]], ret: scala.collection.mutable.HashSet[String]): Unit = {
-      val currentChar =  board(coord._1)(coord._2)
-      val newPrefix = prePrefix + currentChar
-      if(tries.search(newPrefix)) ret += newPrefix
-      /* pruning */
-      if(tries.startsWith(newPrefix)){
-        board(coord._1)(coord._2) = visitedLabel
-        getAvailableCoords(coord, (board.length, board(0).length)).foreach {
-          case (r, c) if board(r)(c) != visitedLabel => _dfs((r, c), newPrefix, board, ret)
-          case _ =>
-        }
-        board(coord._1)(coord._2) = currentChar
+        case None =>
       }
     }
-
-    val coords = for(i <- board.indices; j <- board(0).indices) yield (i, j)
-    val ret = scala.collection.mutable.HashSet[String]()
-    coords.foreach(coord => _dfs(coord, "", board, ret))
-    ret.toList
-
+    val ans = mutable.Set[String]()
+    for(i <- board.indices; j <- board(0).indices) {
+      _dfs((i, j), "", tries.root, ans)
+    }
+    ans.toList
   }
-
-  private val getAvailableCoords = (coord: (Int, Int), shape: (Int, Int)) => {
+  private val neighbors = (coord: (Int, Int), shape: (Int, Int)) => {
     val (row, col) = coord
-    List(
+    Seq(
       (row + 1, col),
-      (row, col + 1),
       (row - 1, col),
+      (row, col + 1),
       (row, col - 1)
-    ).filter{case (r, c) => 0 <= r && r < shape._1 &&  0 <= c && c < shape._2}
+    ).filter{case (r, c) => 0 <= r && r < shape._1 && 0 <= c && c < shape._2}
   }
 }
 
+
 /**
-* hint: tries + dfs + pruning
+* tries + dfs + pruning
+* memo
+*   1. a seenBoard to record which position was visited 
+* time complexity: 
+* 
 */
 
 object Solution1-1 {
@@ -271,3 +317,97 @@ class Trie() {
 
   }
 }
+
+
+/**
+* implement prefix tries by hashmap
+* memo
+*   1. in dfs, we directly input the node from tries instead of tries itself 
+*   2. pruning an edge after matching a word and its children couldn't represent a word
+*   3. this solution is faster than solution1
+*/
+
+import scala.collection.mutable
+case class Node(next: mutable.Map[Char, Node] = mutable.Map.empty, var isWord: Boolean = false){
+  def apply(char: Char): Option[Node] = next.get(char)
+  def update(char: Char, node: Node): Unit = next(char) = node
+}
+
+class Tries(){
+  val root = Node()
+  def insert(word: String): Unit = {
+    var node = root
+    word.foreach { c =>
+      node(c) match {
+        case Some(n) => node = n
+        case None =>
+          node(c) = Node()
+          node = node(c).get
+      }
+    }
+    node.isWord = true
+  }
+
+  def startsWith(prefix: String): Boolean = searchUtil(prefix).isDefined
+  def search(word: String): Boolean =  searchUtil(word).exists(_.isWord)
+
+  def searchUtil(s: String): Option[Node] = {
+    var node = root
+    s.foreach { c =>
+      node(c) match {
+        case Some(n) => node = n
+        case None => return None
+      }
+    }
+    Some(node)
+  }
+}
+
+
+object Solution2 {
+  def findWords(board: Array[Array[Char]], words: Array[String]): List[String] = {
+    val tries = new Tries()
+    words.foreach(tries.insert)
+    dfs(tries, board)
+  }
+
+  def dfs(tries: Tries, board: Array[Array[Char]]): List[String] = {
+    def _dfs(coord: (Int, Int), currentString: String,  node: Node, ans: mutable.Set[String]): Unit = {
+      val (row, col) = coord
+      val char = board(row)(col)
+      node(char) match {
+        case Some(nextNode) =>
+            val newString = currentString + char
+            if(nextNode.isWord) ans += newString
+            board(row)(col) = '#'
+            neighbors(coord, (board.length, board(0).length)).foreach {
+              case (nr, nc) if board(nr)(nc) != '#' => _dfs((nr, nc), newString, nextNode, ans)
+              case _ =>
+           }
+          board(row)(col) = char
+          /** pruning */
+          if(nextNode.next.isEmpty) node.next.remove(char)
+
+        case None =>
+      }
+    }
+    val ans = mutable.Set[String]()
+    for(i <- board.indices; j <- board(0).indices) {
+      _dfs((i, j), "", tries.root, ans)
+    }
+    ans.toList
+  }
+  private val neighbors = (coord: (Int, Int), shape: (Int, Int)) => {
+    val (row, col) = coord
+    Seq(
+      (row + 1, col),
+      (row - 1, col),
+      (row, col + 1),
+      (row, col - 1)
+    ).filter{case (r, c) => 0 <= r && r < shape._1 && 0 <= c && c < shape._2}
+  }
+}
+
+
+
+

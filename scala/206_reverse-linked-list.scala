@@ -5,6 +5,31 @@
  *   var x: Int = _x
  * }
  */
+/**
+* chosen solution - iterative version
+* time complexity: O(n)
+* space complexity: O(1) 
+*/
+object Solution0 {
+    def reverseList(head: ListNode): ListNode = {        
+        var prev: ListNode = null
+        var curr = head
+
+        while (curr != null) {
+            val hold = curr.next
+            curr.next = prev
+            prev = curr
+            curr = hold
+        }
+        prev
+    }
+}
+
+ /**
+ * iterative version
+ * time complexity: O(n)
+ * space complexity: O(1)
+ */
 object Solution1 {
     def reverseList(head: ListNode): ListNode = {
         

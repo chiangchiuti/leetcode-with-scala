@@ -1,7 +1,7 @@
 /**
 * chosen solution
 * dfs + floodfill
-* time complexity: O(N*M) N is the grid length, M is the grid width
+* time complexity: O(N * M) N is the grid length, M is the grid width
 */
 
 object Solution0 {
@@ -39,7 +39,7 @@ object Solution0 {
 /**
 * my first commit
 * dfs + floodfill
-* time complexity: O(N*M) N is the grid length, M is the grid width
+* time complexity: O(N * M) N is the grid length, M is the grid width
 */
 object Solution1 {
     private val endLabel = '0'
@@ -74,78 +74,88 @@ object Solution1 {
 
 /**
 * Union & Find 
-* without modify original grid's elements
+* memo
+*    1. without modify original grid's elements
+* time complexity: O(N * M) both N M is the dimension of grid 
+*     both union and find operation's amortized time complexity in UnionFind class are very very close to 1 but not 1
 */
 
-
-object Solution2 {
-  private val endLabel = '0'
-
-  def numIslands(grid: Array[Array[Char]]): Int = {
-    val unionFind = new UnionFind(grid)
-    val n = grid.length
-    val m = grid(0).length
-
-
-    (for (i <- 0 until n; j <- 0 until m) yield (i, j)).foreach {
-      case (row, col) if grid(row)(col) != endLabel => union(unionFind, grid, (row, col), (n, m))
-      case _ =>
-    }
-    unionFind.counter
-  }
-
-  private def union(unionFind: UnionFind, grid: Array[Array[Char]], coord: (Int, Int), shape: (Int, Int)): Unit = {
-    val (row, col) = coord
-    if (grid(row)(col) != endLabel) {
-      getValidNeighbors(coord, shape).foreach {
-        case (nr, nc) if grid(nr)(nc) != endLabel => unionFind.union(coord, (nr, nc))
-        case _ =>
-      }
-    }
-
-  }
-
-
-  private val getValidNeighbors = (coord: (Int, Int), shape: (Int, Int)) => {
-    Iterator(
-      (coord._1 + 1, coord._2),
-      (coord._1, coord._2 + 1),
-      (coord._1 - 1, coord._2),
-      (coord._1, coord._2 - 1)
-    ).filter { case (row, col) => 0 <= row && row < shape._1 && 0 <= col && col < shape._2 }
-  }
-}
-
+/**
+* weighted quick-union with path compression
+* all operation's amortized time complexity are very very close to 1
+*/
 class UnionFind(grid: Array[Array[Char]]) {
   private val n = grid.length
   private val m = grid(0).length
-  private val roots = Array.tabulate(n * m)(i => i)
-  var counter = (for (i <- 0 until n; j <- 0 until m) yield (i, j)).foldLeft(0) { case (c, (i, j)) => if (grid(i)(j) == '1') c + 1 else c }
+  private val roots = Array.tabulate(n * m){i => i}
+  private val rank = Array.fill[Int](n * m)(1)
+  var counter = (for(i <- 0 until n; j <- 0 until m ; if grid(i)(j) == '1' ) yield(i, j)).size
 
-  private def findRoot(coord: (Int, Int)): Int = {
-    var index = coord._1 * m + coord._2
-    var root = index
+  def findRoot(coord: (Int, Int)): Int = {
+    var idx = coord._2 + coord._1 * m
+    var root = idx
 
-    while (root != roots(root)) root = roots(root)
-    // compression
-    while (index != roots(index)) {
-      val tmp = roots(index)
-      roots(index) = root
-      index = tmp
+    while(root != roots(root)) {
+      root = roots(root)
+    }
+    /** path compression */
+    while(idx != roots(idx)) {
+      val tmp = roots(idx)
+      roots(idx) = root
+      idx = tmp
     }
     root
   }
 
-  def connected(coordA: (Int, Int), coordB: (Int, Int)): Boolean = {
+  def isConnected(coordA: (Int, Int), coordB: (Int, Int)): Boolean = {
     findRoot(coordA) == findRoot(coordB)
   }
-
   def union(coordA: (Int, Int), coordB: (Int, Int)): Unit = {
-    val Aroot = findRoot(coordA)
-    val Broot = findRoot(coordB)
-    if (Aroot != Broot) {
-      roots(Aroot) = Broot
-      counter -= 1
+    val findA  = findRoot(coordA)
+    val findB = findRoot(coordB)
+    if(findA == findB) return
+
+    if(rank(findA) > rank(findB)) {
+      roots(findB) = findA
+    }else if(rank(findA) < rank(findB)) {
+      roots(findA) = findB
+    }else {
+      roots(findA) = findB
+      rank(findB) += 1
     }
+    counter -= 1
+  }
+
+}
+
+object Solution2 {
+  private val endLabel = '0'
+  def numIslands(grid: Array[Array[Char]]): Int = {
+    val unionFind = new UnionFind(grid)
+    for(i <- grid.indices; j <- grid(0).indices)
+      union((i, j), unionFind, grid)
+    unionFind.counter
+
+  }
+
+  def union(coord: (Int, Int), unionFind: UnionFind, grid: Array[Array[Char]]): Unit = {
+    val (row, col) = coord
+    if(grid(row)(col) == endLabel) return
+
+    neighbors(coord, (grid.length, grid(0).length)).foreach {
+      case (nr, nc) if grid(nr)(nc) != endLabel  =>
+        unionFind.union(coord, (nr, nc))
+      case _ =>
+    }
+  }
+
+  private val neighbors = (coord: (Int, Int), shape: (Int, Int)) => {
+    val (row, col) = coord
+    Seq(
+      (row + 1, col),
+      (row - 1, col),
+      (row, col + 1),
+      (row, col - 1)
+    ).filter{ case (r, c) => 0 <= r && r < shape._1 && 0 <= c && c < shape._2}
   }
 }
