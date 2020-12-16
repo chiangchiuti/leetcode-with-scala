@@ -1,7 +1,7 @@
 /**
 * using two stack to implement
 * one for push, the other for pop
-* time complexity
+* time complexity amortized O(1) per operation
 * space complexity
 */
 

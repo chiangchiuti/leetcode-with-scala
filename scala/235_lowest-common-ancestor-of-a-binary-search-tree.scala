@@ -18,7 +18,8 @@ object Solution {
   def lowestCommonAncestor(root: TreeNode, p: TreeNode, q: TreeNode): TreeNode = {
     _lowestCommonAncestor(root, p, q)
   }
-
+  
+  @annotation.tailrec
   private def _lowestCommonAncestor(node: TreeNode, p: TreeNode, q: TreeNode): TreeNode = {
     (p, q) match {
       case (pp, qq) if p.value > node.value && q.value > node.value  && node != null => _lowestCommonAncestor(node.right, pp, qq)
