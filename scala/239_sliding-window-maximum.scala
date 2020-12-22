@@ -23,7 +23,7 @@ object Solution0 {
       windows.add(index)
       if (index + 1 >= k) {
         ret += nums(windows.peekFirst())
-      }
+      
     }
     ret.toArray
   }
