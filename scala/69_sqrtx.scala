@@ -132,7 +132,7 @@ object Solution2 {
 *  newton-method - recursive - top-down
 */
 
-object Solution {
+object Solution2-1 {
     def mySqrt(x: Int): Int = {
         _mySqrt(x, x, math.pow(10, -5)).toInt
     }

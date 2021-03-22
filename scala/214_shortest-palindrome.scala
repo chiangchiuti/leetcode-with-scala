@@ -1,8 +1,9 @@
 /**
 * chosen solution
 *  memo
-*     1. expand around center method
-* time complexity: O(N * 2N) - O(N^2)
+*     1. find the largest palindrome segment from beginning ,  and reverse remaining substring plus original string
+*     2. expand around center method
+* time complexity: O(N * 2N) = O(N^2)
 */
 object Solution0 {
     def shortestPalindrome(s: String): String = {

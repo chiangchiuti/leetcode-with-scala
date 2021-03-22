@@ -7,6 +7,31 @@
  * }
  */
 
+object Solution {
+    def kthSmallest(root: TreeNode, k: Int): Int = {
+
+      val stack = collection.mutable.Stack[TreeNode]()
+      var node = root
+      var counter = 0
+      var ans = 0
+      while ((counter <= k) && (node != null || stack.nonEmpty)) {
+        while(node != null) {
+          stack push node
+          node = node.left
+        }
+        node = stack.pop
+        
+        counter += 1
+        if (counter == 1 || counter <= k) {
+          ans = node.value
+        }
+        
+        node = node.right
+        
+      }
+      ans
+    }
+}
 /**
 * my first commit
 * inorder iterative template
@@ -41,7 +66,7 @@ object Solution1 {
 * time complexity: O(H + k)
 */
 
-object Solution {
+object Solution2-1 {
     import scala.collection.mutable
     def kthSmallest(root: TreeNode, k: Int): Int = {
         val ret = _kthSmallest(root, k, mutable.ListBuffer.empty)
@@ -68,7 +93,7 @@ object Solution {
 * time complexity:
 *      O(H + K) H is the height of the tree calculated by log(N) approximately
 */
-object Solution2 {
+object Solution2-2 {
   def go (node: TreeNode, k: Int) : Either[Int, Int] = {
      val r =for {
       numElementsLeft <- if (node.left == null) Right (0) else go(node.left, k)

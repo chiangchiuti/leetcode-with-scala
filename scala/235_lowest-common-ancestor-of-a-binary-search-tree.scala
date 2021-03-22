@@ -14,7 +14,7 @@
 * time complexity : O(N)
 * space complexity: O(N)
 */
-object Solution {
+object Solution1 {
   def lowestCommonAncestor(root: TreeNode, p: TreeNode, q: TreeNode): TreeNode = {
     _lowestCommonAncestor(root, p, q)
   }
@@ -27,4 +27,26 @@ object Solution {
       case _ => node
     }
   }
+}
+
+
+/**
+* iterative version
+*/
+object Solution1-2 {
+    def lowestCommonAncestor(root: TreeNode, p: TreeNode, q: TreeNode): TreeNode = {
+      if(root == null) return root
+      var node = root
+      
+      var condition = true
+      while(condition && node != null){
+        if(q.value > node.value && p.value > node.value)
+          node = node.right
+        else if (node.value > q.value && node.value > p.value)
+          node = node.left
+        else 
+          condition = false
+      }
+      node
+    }
 }

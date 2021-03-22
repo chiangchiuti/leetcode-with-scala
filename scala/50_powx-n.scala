@@ -4,23 +4,24 @@
 * memo
 *   1. n may be negative or positive
 *   2. n may be odd or even
+*   3. do not care n during recursive
 * time complexity: O(logN)
 */
 
-object Solution0{
+object Solution0 {
     def myPow(x: Double, n: Int): Double = {
-        if(n == 0) return 1
-        
-        val t = myPow(x, n / 2)
-        
-        if(n % 2  == 0){
-            t * t
-        }else{
-            if(n < 0) t * t * (1 / x)
-            else t * t * x
-        }
+      if (n == 0) return 1
+      val ans = _myPow(x, math.abs(n))
+      if (n < 0) 1 / ans else ans 
+    }
+    
+    def _myPow(x: Double, n: Int): Double = {
+      if (n == 1 || n == 0) x
+      else if ((n & 1) == 1) _myPow(x * x, n / 2) * x
+      else _myPow(x * x, n / 2)
     }
 }
+
 
 /**
 * recursive version : bottom-up
@@ -66,6 +67,25 @@ object Solution1-2 {
 }
 
 /**
+*  bottom-up -recursive,
+*   do not care n during recursive
+*/
+object Solution1-3 {
+    def myPow(x: Double, n: Int): Double = {
+      if (n == 0) return 1
+      val ans = _myPow(x, math.abs(n))
+      if (n < 0) 1 / ans else ans 
+    }
+    
+    def _myPow(x: Double, n: Int): Double = {
+      if (n == 1 || n == 0) x
+      else if ((n & 1) == 1) _myPow(x * x, n / 2) * x
+      else _myPow(x * x, n / 2)
+    }
+}
+
+
+/**
 * top-down - iterative version 
 * Binary Exponentiation with negative n
 *
@@ -99,7 +119,7 @@ object Solution2 {
 }
 
 /**
-* top-down - recursive version - 
+*  top-down - recursive with tail recursive
 */
 object Solution2-1 {
     def myPow(x: Double, n: Int): Double = {
@@ -116,3 +136,4 @@ object Solution2-1 {
         }
     }
 }
+

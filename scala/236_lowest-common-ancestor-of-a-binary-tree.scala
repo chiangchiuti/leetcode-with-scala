@@ -10,7 +10,7 @@
 /**
 *  chosen solution
 *  DFS with recursive
-*  time complexity O(N)
+*  time complexity O(N), N is the number of node in the tree
 *  space complexity O(N)
 */
 object Solution0 {

@@ -7,9 +7,10 @@
  */
  
  /**
+ * my first commitment
  *  using two pointer, one run 2 times faster than the other
  */
-object Solution {
+object Solution1 {
     def isPalindrome(head: ListNode): Boolean = {
         if (head == null){
             true
@@ -62,5 +63,30 @@ object Solution {
             print(s"${n.x}\t")
             n = n.next
         }
+    }
+}
+
+
+/**
+* very brilliant solution
+*/
+object Solution2 {
+    def isPalindrome(head: ListNode): Boolean = {
+        if (head == null) {
+            return true
+        }
+        var p = head
+        var result = true
+        def go(node: ListNode): Unit = {
+            if (node.next != null) {
+                go(node.next)
+            }
+            if (p.x != node.x) {
+                result = false
+            }
+            p = p.next
+        }
+        go(head)
+        result
     }
 }

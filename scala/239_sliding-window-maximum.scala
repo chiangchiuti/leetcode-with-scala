@@ -1,32 +1,35 @@
 
 /**
 * chosen solution 
-* using java array deque (double side queue) version which remove first/last element from collection is O(1)
+* using  array deque (double side queue)  which remove first/last element from collection is O(1)
 * time complexity O(N)
 */
 object Solution0 {
-  def maxSlidingWindow(nums: Array[Int], k: Int): Array[Int] = {
-    import java.util
-    val windows = new util.ArrayDeque[Int]  // record nums index
-    val ret = scala.collection.mutable.ArrayBuffer.empty[Int]
-
-    nums.zipWithIndex.foreach { case (value: Int, index: Int) =>
-      if (index >= k && windows.peekFirst() <= index - k) {
-        // remove out of date element
-        windows.removeFirst()
-      }
-
-      while (!windows.isEmpty && nums(windows.peekLast()) <= value) {
-        // drop the element if  it is smaller than upcoming element
-        windows.removeLast()
-      }
-      windows.add(index)
-      if (index + 1 >= k) {
-        ret += nums(windows.peekFirst())
+    def maxSlidingWindow(nums: Array[Int], k: Int): Array[Int] = {
+      val deque = collection.mutable.ArrayDeque[Int]()
+      val ret = collection.mutable.ArrayBuffer.empty[Int]
       
+      nums.indices.foreach { case idx =>
+
+        val upcoming = nums(idx)
+        if (idx >= k && deque.head <= (idx - k)){
+          deque.dropInPlace(1)
+        }
+
+        while(deque.nonEmpty && nums(deque.last) <= upcoming) {
+        // drop the element if  it is smaller than upcoming element
+        //you should always delete elements from right side
+          deque.dropRightInPlace(1)
+        }
+
+        deque.append(idx)
+
+        if(idx + 1  >= k) {
+          ret += nums(deque.head)
+        }
+      }
+      ret.toArray  
     }
-    ret.toArray
-  }
 }
 
 /**
@@ -137,4 +140,43 @@ object Solution3 {
     }
     ret.toArray
   }
+}
+
+/**
+* use scala build-in arrayDeque
+*/
+object Solution3-1 {
+    def maxSlidingWindow(nums: Array[Int], k: Int): Array[Int] = {
+      val deque = collection.mutable.ArrayDeque[Int]()
+      val ret = collection.mutable.ArrayBuffer.empty[Int]
+      
+      nums.indices.foreach { case idx =>
+
+        val upcoming = nums(idx)
+        if (idx >= k && deque.head <= (idx - k)){
+          deque.dropInPlace(1)
+        }
+
+        while(deque.nonEmpty && nums(deque.last) <= upcoming) {
+        // drop the element if  it is smaller than upcoming element
+          deque.dropRightInPlace(1)
+        }
+
+        deque.append(idx)
+
+        if(idx + 1  >= k) {
+          ret += nums(deque.head)
+        }
+      }
+      ret.toArray  
+    }
+}
+
+/**
+* brute force, not AC
+*/
+object Solution4 {
+    def maxSlidingWindow(nums: Array[Int], k: Int): Array[Int] = {
+        nums.sliding(k).map(_.max).toArray
+    }
 }

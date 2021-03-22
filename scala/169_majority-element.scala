@@ -6,24 +6,23 @@
 * time complexity N(N)
 * space complexity O(1)
 */
-
-object Solution0 {
-  def majorityElement(nums: Array[Int]): Int = {
-    var num = nums(0)
-    var counter = 0
-    nums.foreach { n =>
-      if (num == n) {
-        counter += 1
-      } else {
-        counter -= 1
-        if (counter == 0) {
-          num = n
+object Solution {
+    def majorityElement(nums: Array[Int]): Int = {
+      var counter = 1
+      var candidate = nums(0)
+      for (idx <- 1 until nums.length) {
+        val value = nums(idx)
+        if(candidate == value)
           counter += 1
+        else {
+          if(counter == 1)
+            candidate = value
+          else
+            counter -= 1
         }
       }
+      candidate
     }
-    num
-  }
 }
 
 

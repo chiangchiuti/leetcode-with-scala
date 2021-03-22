@@ -72,6 +72,25 @@ object Solution2 {
 
 /**
 * dynamic programming
+* memo
+*   1. one dimension array
+* time complexity O(N)
+* space complexity O(N)
+*/
+object Solution2-1 {
+    def maxSubArray(nums: Array[Int]): Int = {
+      val dp  = Array.ofDim[Int](nums.length)
+      dp(0) = nums(0)
+      for (i <- 1 until nums.size) {
+        dp(i) = nums(i) max (nums(i) + dp(i - 1))
+      }
+      
+      dp.max
+    }
+}
+
+/**
+* dynamic programming
 * actually, we don't need storing all previous status of nums.length
 * we just need two status: one for maximum so far, the other one for the maximum accumulated value which containing with nums[i]
 *
@@ -79,7 +98,7 @@ object Solution2 {
 * space complexity: O(1)
 */
 
-object Solution2-1 {
+object Solution2-2 {
     def maxSubArray(nums: Array[Int]): Int = {
         if (nums == null || nums.isEmpty) return 0
         var maxSoFar = nums(0)
@@ -96,7 +115,7 @@ object Solution2-1 {
 /**
 *  functional programming: foldLeft
 */
-object Solution2-2 {
+object Solution2-3 {
     def maxSubArray(nums: Array[Int]): Int = {
       if(nums == null || nums.isEmpty) return 0
       (1 until nums.length).foldLeft((nums(0), nums(0))){

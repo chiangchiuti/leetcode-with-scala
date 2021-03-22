@@ -1,7 +1,7 @@
 /**
 * chosen solution
 *   time complexity: O(|S| + |T|)
-*   space complexity: O(|T|)
+*   space complexity: O(|s| + |T|)
 * sliding windows: faster version
 * @param
 * left right : two pointer for enlarging and reduce windows size
