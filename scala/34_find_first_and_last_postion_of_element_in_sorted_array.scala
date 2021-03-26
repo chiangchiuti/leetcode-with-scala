@@ -74,6 +74,9 @@ object Solution1 {
 *  1. search first and last the the same function
 *  2. if nums(mid) == target we could move left to check if left part exists target number
 *  3. finding last by target + 1,  then we could get last position of target by first position of (target + 1) - 1
+* tricky:
+*  1. ans = nums.length
+*  2. first > last  means that target doesn't exists
 *
 * time complexity: O(2logN)
 */
@@ -99,5 +102,30 @@ object Solution1 {
         } 
       }
       ans
+    }
+}
+
+/**
+* recursive version
+*/
+object Solution2-1 {
+    def searchRange(nums: Array[Int], target: Int): Array[Int] = {
+      val first = search(nums, target, 0, nums.length - 1, nums.length)
+      val last = search(nums, target + 1, 0, nums.length - 1, nums.length) - 1
+      if (first > last) Array(-1, -1) else Array(first, last)
+    }
+  
+    @annotation.tailrec
+    def search(nums: Array[Int], target: Int, left: Int, right: Int, ans: Int): Int = {
+      if (left > right) return ans
+      val mid = left + (right - left) / 2
+      
+      if (nums(mid) == target)
+        search(nums, target, left, mid - 1, mid)
+      else if (nums(mid) > target)
+        search(nums, target, left, mid - 1, mid)
+      else
+        search(nums, target, mid + 1, right, ans)
+      
     }
 }

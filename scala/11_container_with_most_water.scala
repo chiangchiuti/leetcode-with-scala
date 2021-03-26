@@ -45,11 +45,10 @@ object Solution2 {
           left += 1
         else // right is shorter
           right -= 1
-    }
-        
       }
       volume
-        
+    }
+         
 }
 
 /**

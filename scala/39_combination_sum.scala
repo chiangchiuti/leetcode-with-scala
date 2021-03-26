@@ -1,4 +1,31 @@
 /**
+* chosen solution - backtracking + dfs + pruning
+* time complexity: O(N^target)
+* space complexity: O(target)
+*/
+
+object Solution0 {
+    import collection.mutable
+    def combinationSum(candidates: Array[Int], target: Int): List[List[Int]] = {
+      
+      def dfs(arr: Array[Int], idx: Int, currentSum: Int, list: List[Int], ans: mutable.ListBuffer[List[Int]]): Unit = {
+        if (currentSum == target) {
+          ans += list
+          return
+        }
+        val diff = target - currentSum
+        (idx until arr.length).filter(i => arr(i) <= diff).foreach(i => dfs(arr, i, currentSum + arr(i), list :+ arr(i), ans)) 
+      }
+      
+      val ans = mutable.ListBuffer.empty[List[Int]]
+      
+      dfs(candidates, 0, 0, List.empty, ans)
+      ans.toList
+        
+    }
+}
+
+/**
 * my first commitment: dfs - backtracking
 */
 
@@ -66,5 +93,33 @@ object Solution1-3{
       val ans = mutable.Set.empty[List[Int]]
       dfs(0, List.empty[Int], 0, ans)
       ans.toList
+    }
+}
+
+/**
+* using ListBuffer instead of Set
+* memo
+* 1.candidates array should be in ascending order
+* time complexity: O(N^target)
+* space complexity: O(target)
+*/
+object Solution1-4 {
+    import collection.mutable
+    def combinationSum(candidates: Array[Int], target: Int): List[List[Int]] = {
+      
+      def dfs(arr: Array[Int], idx: Int, currentSum: Int, list: List[Int], ans: mutable.ListBuffer[List[Int]]): Unit = {
+        if (currentSum == target) {
+          ans += list
+          return
+        }
+        val diff = target - currentSum
+        (idx until arr.length).filter(i => arr(i) <= diff).foreach(i => dfs(arr, i, currentSum + arr(i), list :+ arr(i), ans)) 
+      }
+      
+      val ans = mutable.ListBuffer.empty[List[Int]]
+      
+      dfs(candidates, 0, 0, List.empty, ans)
+      ans.toList
+        
     }
 }

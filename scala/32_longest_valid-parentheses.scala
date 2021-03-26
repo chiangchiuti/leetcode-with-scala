@@ -3,6 +3,8 @@
 
 /**
 * using stack to record the char index in oder to calculate the valid length
+* memo:
+* 1. always only have one invalid symbol at stack and its position index is 0
 * time complexity O(n)
 * space complexity O(n)
 */
