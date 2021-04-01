@@ -1,5 +1,29 @@
 /**
+* chosen solution
+* 
+* BFS - recursive
+* time complexity
+*    worst case: O(N), all node was visited
+*/
+object Solution0 {
+    def minDepth(root: TreeNode): Int = {
+        _minDepth(if(root == null) List() else List(root), 0)
+    }
+    
+    @annotation.tailrec
+    def _minDepth(queue: List[TreeNode], ans: Int): Int = {
+        if(queue.isEmpty) ans
+        // node has no child 
+        else if(queue.exists(t => t.left == null && t.right == null)) ans + 1
+        else _minDepth(queue.flatMap(t => List(t.left, t.right)).filter(_ != null), ans + 1)
+    }
+}
+
+
+/**
 * DFS traversal - recursive
+* memo
+* 1.edge case: node only have one child
 * time complexity O(N)
 */
 object Solution1 {

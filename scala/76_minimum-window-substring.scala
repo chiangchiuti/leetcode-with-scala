@@ -4,61 +4,57 @@
 *   space complexity: O(|s| + |T|)
 * sliding windows: faster version
 * @param
-* left right : two pointer for enlarging and reduce windows size
+* left right : two pointer for enlarging and reducing windows size
 * head and len: storing minWindow
-* count: count = 0 when  "left index until right index"  is satisfied condition
+* count: count = 0 when the range between left index and right index satisfy condition
 */
-
-object Solution0 {
-  def minWindow(s: String, t: String): String = {
-
-    var left = 0
-    var right = 0
-    var head = 0
-    var len = s.length + 1
-    val budgetMap = scala.collection.mutable.Map() ++ t.groupBy(identity).mapValues(_.length)
-    var count = budgetMap.size
-
-    while (right < s.length) {
-      val char = s(right)
-     
-        budgetMap.get(char) match {
-            case Some(e) if e == 1 => 
-                // char count would be zero
-                budgetMap.update(char, e - 1)
-                count -= 1
-            case Some(e) =>
-                budgetMap.update(char, e - 1)
-            case None =>
-        }
+object Solution0{
+    import collection.mutable
+    def minWindow(s: String, t: String): String = {
+      val sMap = mutable.Map.empty[Char, Int] ++ t.groupBy(identity).mapValues(_.length).toMap
+      var counter = sMap.size
       
-      right += 1
-      /* running into while  condition means current window contains t */
-      while(count == 0) {
-      /* update minWindow*/
-        if(len > (right - left)) {
-          len = right - left
-          head  = left
-        }
+      var left = 0
+      var minLength = s.length + 1
+      var head = 0
 
-        val tempChar = s(left)
-        budgetMap.get(tempChar) match {
-          case Some(e) if e == 0 =>
-            budgetMap.update(tempChar, e + 1)
-            count += 1
-          case Some(e) =>
-            budgetMap.update(tempChar, e + 1)
-          case None =>
+      for (right <- s.indices) {
+        val rightChar = s(right)
+        sMap.get(rightChar) match {
+          case Some(v) if v == 1 =>
+            sMap.update(rightChar, v - 1)
+            counter -= 1
+          case Some(v) =>
+            sMap.update(rightChar, v - 1)
+          case None => 
         }
         
-        left += 1
+        while(counter == 0) {
+
+          val leftChar = s(left)
+          if (minLength > (right - left  + 1)) {
+            head = left
+            minLength = right - left + 1
+          }
+          
+          sMap.get(leftChar) match {
+            case Some(v) if v == 0 =>
+              sMap.update(leftChar, v + 1)
+              counter += 1
+            case Some(v) =>
+              sMap.update(leftChar, v + 1)
+            case None =>
+          }
+          
+          left += 1
+        }
+        
       }
+      if (minLength == (s.length + 1)) "" else s.slice(head, head + minLength)
+      
+      
     }
-
-    if(len == (s.length + 1)) "" else s.substring(head, head + len)
-  }
 }
-
 /**
 * my first commitment
 * sliding windows with two pointer: left and right
@@ -148,9 +144,9 @@ object Solution1-2 {
 
 /**
 * sliding windows: faster version
-* left right : two pointer for enlarging and reduce windows size
+* left right : two pointer for enlarging and reducing windows size
 * head and len: storing minWindow
-* count: count = 0 when  left index until right index  satisfy condition
+* count: count = 0 when the range between left index and right index satisfy condition
 */
 
 object Solution1-3 {
@@ -197,4 +193,57 @@ object Solution1-3 {
     println(budgetMap)
     if(len == (s.length + 1)) "" else s.substring(head, head + len)
   }
+}
+
+/**
+* 1. for loop auto increment right index
+* 2. update minLength and head index before updating counter and left index
+*/
+
+object Solution1-4 {
+    import collection.mutable
+    def minWindow(s: String, t: String): String = {
+      val sMap = mutable.Map.empty[Char, Int] ++ t.groupBy(identity).mapValues(_.length).toMap
+      var counter = sMap.size
+      
+      var left = 0
+      var minLength = s.length + 1
+      var head = 0
+
+      for (right <- s.indices) {
+        val rightChar = s(right)
+        sMap.get(rightChar) match {
+          case Some(v) if v == 1 =>
+            sMap.update(rightChar, v - 1)
+            counter -= 1
+          case Some(v) =>
+            sMap.update(rightChar, v - 1)
+          case None => 
+        }
+        
+        while(counter == 0) {
+
+          val leftChar = s(left)
+          if (minLength > (right - left  + 1)) {
+            head = left
+            minLength = right - left + 1
+          }
+          
+          sMap.get(leftChar) match {
+            case Some(v) if v == 0 =>
+              sMap.update(leftChar, v + 1)
+              counter += 1
+            case Some(v) =>
+              sMap.update(leftChar, v + 1)
+            case None =>
+          }
+          
+          left += 1
+        }
+        
+      }
+      if (minLength == (s.length + 1)) "" else s.slice(head, head + minLength)
+      
+      
+    }
 }
